@@ -1,19 +1,20 @@
 from __future__ import unicode_literals
 
-from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import View
-import json, time
+import json
+import time
+import sys
 from django.conf import settings
 from django.http import QueryDict
+from lib.util import *
+
 # import traceback
+# from django.shortcuts import render
+# PROJ_LIB_DIR = settings.PROJ_LIB_DIR
+# sys.path.insert(0, PROJ_LIB_DIR)
 
-PROJ_LIB_DIR = settings.PROJ_LIB_DIR
 PROJ_DB_CONFIG = settings.PROJ_DB_CONFIG
-import sys
-
-sys.path.insert(0, PROJ_LIB_DIR)
-from util import *
 
 
 def login_home_page(request):

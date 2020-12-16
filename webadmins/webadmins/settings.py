@@ -13,9 +13,9 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 import os
 import sys
 import djcelery  # django-celery
-from util import *
-from dbControl import *
-from logger import log
+from lib.util import *
+from lib.dbControl import *
+from lib.logger import log
 from celery import Celery, platforms
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)

@@ -1,23 +1,24 @@
-import os, sys, time
 from django.conf import settings
-import time
+from lib.sshConn import *
+from lib.db_backup_tools import *
+from lib.backup_agent_install import *
+from lib.dbControl import *
+from lib.fs_backup_tools import *
+from lib.util import *
+import traceback
+import pymysql
 
-PROJ_LIB_DIR = settings.PROJ_LIB_DIR
-sys.path.insert(0, PROJ_LIB_DIR)
-from sshConn import *
-from db_backup_tools import *
-from backup_agent_install import *
-from dbControl import *
-from util import *
+# import os
+# import time
+# import sys
+# PROJ_LIB_DIR = settings.PROJ_LIB_DIR
+# sys.path.insert(0, PROJ_LIB_DIR)
+
 
 app = settings.CELERY
 logger = settings.LOGGER
 PROJ_DB_CONFIG = settings.PROJ_DB_CONFIG
 POOL = settings.POOL
-
-import pymysql
-import traceback
-from fs_backup_tools import *
 
 
 class MyTask(app.Task):

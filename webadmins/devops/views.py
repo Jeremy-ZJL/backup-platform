@@ -4,18 +4,18 @@ from django.views.generic import View
 import json, time
 from django.conf import settings
 from django.http import QueryDict
-import traceback
-
-PROJ_LIB_DIR = settings.PROJ_LIB_DIR
-PROJ_DB_CONFIG = settings.PROJ_DB_CONFIG
-import sys
-
-sys.path.insert(0, PROJ_LIB_DIR)
-
-from util import *
-from sshConn import *
-from mnt_nfs import *
+from lib.util import *
+from lib.sshConn import *
+from lib.mnt_nfs import *
 from devops.task import celery_ssh_connect_check
+
+PROJ_DB_CONFIG = settings.PROJ_DB_CONFIG
+
+
+# import traceback
+# import sys
+# PROJ_LIB_DIR = settings.PROJ_LIB_DIR
+# sys.path.insert(0, PROJ_LIB_DIR)
 
 
 class cmdb_host_information(View):

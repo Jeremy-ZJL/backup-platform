@@ -17,12 +17,11 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
-static_path = static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-
 from devops import views as devops_views
 from backupPlatform import views as backup_views
 from login import views as login_views
 
+static_path = static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -45,4 +44,3 @@ urlpatterns = [
 ]
 
 urlpatterns += static_path
-

@@ -1,18 +1,17 @@
 # coding:utf8
 
-import sys
-from dbControl import *
+from lib.dbControl import *
 from django.http import HttpResponse
 import json
 from webadmins.settings import POOL
-from webadmins.settings import PROJ_LIB_DIR
 from webadmins.settings import LOGGER
 
 # import os
+# import sys
 # import traceback
 # from django.http import HttpResponseRedirect
-
-sys.path.insert(0, PROJ_LIB_DIR)
+# from webadmins.settings import PROJ_LIB_DIR
+# sys.path.insert(0, PROJ_LIB_DIR)
 
 try:
     from django.utils.deprecation import MiddlewareMixin
