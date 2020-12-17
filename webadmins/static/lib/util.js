@@ -1,9 +1,3 @@
-
-
-
-
-
-
 CMDB_HOST_INFORMATION="/api/cmdb/cmdb_host_information"
 CMDB_STORAGE_INFORMATION='/api/cmdb/cmdb_storage_information'
 BACKUP_HOST_MANAGER = '/api/backup/backup_host_manager'
@@ -21,20 +15,22 @@ ACCOUNT_CURRENT_USER='/api/auth/account_current_user'
 
 
 function modalalertdemo(msg, interval=5000){
-	    $.Huimodalalert(msg ,interval)
-    }
+    $.Huimodalalert(msg ,interval)
+}
 
 
 function login_acquire(){
-	    var cookie = document.cookie;
-	    console.log(cookie);
-	    console.log(typeof cookie);
-		var re = /login=true/i;
-	    var login = cookie.search(re);
-		if (login == -1){
-		    window.open("/static/login.html", '_self')
-		}
-	}
+    var cookie = document.cookie;
+    console.log('cookie - ', cookie);
+    console.log('cookieType - ', typeof cookie);
+
+    var re = /login=true/i;
+    var login = cookie.search(re);
+    console.log('login - ', login)
+    if (login == -1){
+        window.open("/static/login.html", '_self')
+    }
+}
 
 
 
@@ -51,101 +47,96 @@ function format_timestamp(timestamp) {
     
 function ajaxGet(url){
 //不带参数的 ajaxget请求
-         var result;
-         $.ajax({
-            url: url,
-            async: false,
-            success: function (args) {
-                result=args
-            },
-
-             error: function(XMLHttpRequest, textStatus, errorThrown) {
-                result = XMLHttpRequest.responseText
-             },
-        });
-        return result
-        }
+    var result;
+    $.ajax({
+        url: url,
+        type:"GET",
+        async: false,
+        success: function (args) {
+            result=args
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            result = XMLHttpRequest.responseText
+        },
+    });
+return result
+}
 
 function ajaxGet_data(url, data){
-//ajax带有参数的ajaxGET请求
-        var result;
-        $.ajax({
-            data: data,
-            url: url,
-            async: false,
-            success: function (args){
-                result=args
-            },
-
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-
-                 result = XMLHttpRequest.responseText
-
-             },
-
-
-        });
-        return result
-        }   //GET请求
+    // ajax GET请求
+    //ajax带有参数的ajaxGET请求
+    var result;
+    $.ajax({
+        data: data,
+        url: url,
+        type:"GET",
+        async: false,
+        success: function (args){
+            result=args
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+             result = XMLHttpRequest.responseText
+         },
+    });
+    return result
+}
 
 function ajaxPut(url, data, async=false){
-//ajax POST请求
-        var result;
-        $.ajax({
-            data:data,
-            url:url,
-            type:"PUT",
-            async:async,
-            success:function(msg){
-                    result =  msg;
-            },
+    //ajax PUT请求
+    var result;
+    $.ajax({
+        data:data,
+        url:url,
+        type:"PUT",
+        async:async,
+        success:function(msg){
+                result =  msg;
+        },
 
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            result = XMLHttpRequest.responseText
+         },
 
-                result = XMLHttpRequest.responseText
-             },
-
-        });
-        return result
-    }
+    });
+    return result
+}
 
 function ajaxDelete(url, data){
-//ajax POST请求
-        var result;
-        $.ajax({
-            data:data,
-            url:url,
-            type:"DELETE",
-            async:false,
-            success:function(msg){
-                    result =  msg;
-            },
+    //ajax DELETE请求
+    var result;
+    $.ajax({
+        data:data,
+        url:url,
+        type:"DELETE",
+        async:false,
+        success:function(msg){
+            result =  msg;
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            result = XMLHttpRequest.responseText
+            //modalalertdemo(msg);
+         },
 
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                result = XMLHttpRequest.responseText
-                //modalalertdemo(msg);
-             },
-
-        });
-        return result
-    }
+    });
+    return result
+}
 
 function ajaxPost(url, data){
-//ajax POST请求
-        var result;
-        $.ajax({
-            data:data,
-            url:url,
-            type:"POST",
-            async:false,
-            success:function(msg){
-                result =  msg;
-            },
+    //ajax POST请求
+    var result;
+    $.ajax({
+        data:data,
+        url:url,
+        type:"POST",
+        async:false,
+        success:function(msg){
+            result =  msg;
+        },
 
-            error: function(XMLHttpRequest, textStatus, errorThrown){
-                result = XMLHttpRequest.responseText
-             },
-            
-        });
-        return result
-    }
+        error: function(XMLHttpRequest, textStatus, errorThrown){
+            result = XMLHttpRequest.responseText
+         },
+
+    });
+    return result
+}
