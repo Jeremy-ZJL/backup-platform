@@ -21,13 +21,13 @@ function modalalertdemo(msg, interval=5000){
 
 function login_acquire(){
     var cookie = document.cookie;
-    console.log('cookie - ', cookie);
-    console.log('cookieType - ', typeof cookie);
+    console.log('login_acquire - cookie - ', cookie, 'login_acquire - cookieType - ', typeof cookie);
 
     var re = /login=true/i;
     var login = cookie.search(re);
-    console.log('login - ', login)
-    if (login == -1){
+    console.log('login_acquire - login - ', login, 'login - type - ', typeof login, 're - type - ', typeof re);
+
+    if (login === -1){
         window.open("/static/login.html", '_self')
     }
 }
