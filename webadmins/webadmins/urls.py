@@ -14,22 +14,22 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
-from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
 from devops import views as devops_views
 from backupPlatform import views as backup_views
 from login import views as login_views
 
+# from django.contrib import admin
 static_path = static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^api/test', backup_views.api_test),
     url(r'^$', login_views.login_home_page),
+    # url(r'^admin/', admin.site.urls),
+    url(r'^api/test', backup_views.api_test),
+
     url(r'^api/cmdb/cmdb_host_information', devops_views.cmdb_host_information.as_view()),
     url(r'^api/cmdb/cmdb_storage_information', devops_views.cmdb_storage_information.as_view()),
-
     url(r'^api/backup/backup_host_manager', backup_views.backup_host_manager.as_view()),
     url(r'^api/backup/backup_database_manager', backup_views.backup_database_manager.as_view()),
     url(r'^api/backup/backup_fs_manager', backup_views.backup_fs_manager.as_view()),

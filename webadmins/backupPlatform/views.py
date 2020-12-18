@@ -1,27 +1,25 @@
-from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.generic import View
 import json
 from django.conf import settings
 from django.http import QueryDict
-import sys
-import pymysql
-
-PROJ_LIB_DIR = settings.PROJ_LIB_DIR
-PROJ_DB_CONFIG = settings.PROJ_DB_CONFIG
-
-sys.path.insert(0, PROJ_LIB_DIR)
-from util import *
-from sshConn import *
-from backup_agent_install import *
 from db_backup_tools import *
 from backupPlatform.task import celery_database_full_backup, celery_filesystem_agent_install, \
     celery_filesystem_full_backup
 
+PROJ_DB_CONFIG = settings.PROJ_DB_CONFIG
 
+
+# from django.shortcuts import render
+# from lib.util import *
+# from lib.sshConn import *
+# from lib.backup_agent_install import *
+# import pymysql
 # import traceback
 # import time
-
+# import sys
+# PROJ_LIB_DIR = settings.PROJ_LIB_DIR
+# sys.path.insert(0, PROJ_LIB_DIR)
 
 def api_test(request):
     return HttpResponse("API OK!")
@@ -138,7 +136,6 @@ class backup_host_manager(View):
         """
         部署备份代理agent
         """
-
         result = {}
         httpPut = QueryDict(request.body)
         source_addr = httpPut.get('source_addr', '').strip()
