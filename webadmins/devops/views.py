@@ -279,7 +279,7 @@ class cmdb_storage_information(View):
                     cmdb_host_info = select_database_info(db, PROJ_DB_CONFIG["database"],
                                                           "cmdb_host_information",
                                                           source_addr=mount_addr)
-                    # print('cmdb_host_info', cmdb_host_info)
+                    print('cmdb_host_info', cmdb_host_info)
                     if not cmdb_host_info:
                         result["code"] = 404
                         result["message"] = "%s主机信息没找到!" % mount_addr
