@@ -158,7 +158,7 @@
     }
 
     function storage_mount(line_id) {
-        var url = location.protocol + "//" + location.hostname + ":" + location.port + CMDB_STORAGE_INFORMATION;
+        var storage_mount_url = location.protocol + "//" + location.hostname + ":" + location.port + CMDB_STORAGE_INFORMATION;
         var tr = document.getElementById("tr_" + line_id).getElementsByTagName("td");
         var source_addr = tr[1].innerHTML;
         var storage_mount_path = tr[2].innerHTML;
@@ -171,10 +171,10 @@
             "mount_addr": mount_addr,
             "local_path": local_path
         };
-        var res = ajaxPut(url, data);
+        var res = ajaxPut(storage_mount_url, data);
         var jsonObj = JSON.parse(res);
         console.log(
-            'storage_mount_url: ', url, '\n',
+            'storage_mount_url: ', storage_mount_url, '\n',
             'line_id: ', line_id, '\n',
             'tr_: ', line_id, '\n',
             'tr: ', tr, '\n',
