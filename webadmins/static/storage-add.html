@@ -51,7 +51,6 @@
                       <!--<option value="db">数据库</option>-->
 				  </select>
 				</span>
-
             </div>
         </div>
 
@@ -63,8 +62,6 @@
                        value="&nbsp;清&nbsp;&nbsp;空&nbsp;">
             </div>
         </div>
-
-
     </form>
 </article>
 
@@ -87,15 +84,17 @@
 
     function source_addr_select(msg) {
         var message = msg["message"];
-        console.log(message);
         var res = '<option value="127.0.0.1" selected>选择挂载主机(默认本地)</option>';
-        for (var j = 0; j < message.length; j++) {
+        for (let j = 0; j < message.length; j++) {
             if (message[j]["ssh_conn"] === 1) {
                 console.log(message[j]['source_addr']);
                 var t = '<option value="' + message[j]['source_addr'] + '">' + message[j]['source_addr'] + '</option>';
                 res += t;
             }
         }
+        console.log(
+            'message', message
+        );
         document.getElementById("mount_addr").innerHTML = res;
     }
 
@@ -130,13 +129,15 @@
 
     $(document).ready(function () {
         var source_addr_url = location.protocol + "//" + location.hostname + ":" + location.port + CMDB_HOST_INFORMATION;
-        console.log(source_addr_url);
         var msg = ajaxGet(source_addr_url);
-        console.log(msg);
         var jsonObj = JSON.parse(msg);
-        console.log(jsonObj);
         source_addr_select(jsonObj);
 
+        console.log(
+            'source_addr_url: ', source_addr_url, '\n',
+            'ajaxGet: ', msg, '\n',
+            'jsonObj: ', jsonObj
+        );
     });
 
 

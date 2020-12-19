@@ -103,11 +103,6 @@ def get_folder_size(mnt_path):
     return result
 
 
-# if __name__ == '__main__':
-#     x = get_folder_size('/mnt/nfs/671071324918648')
-#     print(x)
-
 if __name__ == '__main__':
-    f = '/app_shell/backup-platform/webadmins/config/config.cfg'
-    x = readConfig(f)
-    print(x.read_config("uwsgi"))
+    x = get_folder_size('/mnt/nfs/671071324918648')
+    print(x)

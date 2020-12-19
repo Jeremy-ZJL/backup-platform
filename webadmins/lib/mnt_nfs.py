@@ -241,12 +241,18 @@ class remote_nfs_mount(storage_nfs_mount):
         try:
             self.sshObj.exeCommand(cmd, timeout=5)
         except Exception as e:
-            logger.warn("主机%s删除挂载点%s:%s fstab配置失败!err:%s" % (self.sshObj.host, self.source_addr,
-                                                             self.storage_mount_path, str(e)))
-            raise NfsMountError("主机%s删除挂载点%s:%s fstab配置失败!err:%s" % (self.sshObj.host, self.source_addr,
-                                                                     self.storage_mount_path, str(e)))
+            logger.warn("主机%s删除挂载点%s:%s fstab配置失败!err:%s" % (self.sshObj.host,
+                                                             self.source_addr,
+                                                             self.storage_mount_path,
+                                                             str(e)))
+            raise NfsMountError("主机%s删除挂载点%s:%s fstab配置失败!err:%s" % (self.sshObj.host,
+                                                                     self.source_addr,
+                                                                     self.storage_mount_path,
+                                                                     str(e)))
         else:
-            logger.info("主机%s删除挂载点%s:%s fstab配置成功!" % (self.sshObj.host, self.source_addr, self.storage_mount_path))
+            logger.info("主机%s删除挂载点%s:%s fstab配置成功!" % (self.sshObj.host,
+                                                       self.source_addr,
+                                                       self.storage_mount_path))
             return True
 
     def umnt_local_dir(self):
@@ -262,14 +268,4 @@ class remote_nfs_mount(storage_nfs_mount):
 
 
 if __name__ == '__main__':
-    # nfs_mount = local_nfs_mount("172.16.70.233", '/opt/nfs_test', '/mnt/nfs/343284705541386')
-    # #x = nfs_mount.mount_nfs()
-    # x = nfs_mount.umount_nfs()
-    # print(x)
-
-    sshObj = controlHost('172.16.70.221', 'root', 'meizu.com', 22)
-    nfs_mount = remote_nfs_mount('172.16.70.233', '/opt/nfs_test', sshObj)
-    nfs_mount.check_nfs_install()
-    # x = nfs_mount.mount_nfs()
-    # x = nfs_mount.umount_nfs()
-    # print(x)
+    pass

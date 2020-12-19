@@ -1,7 +1,7 @@
-from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.generic import View
-import json, time
+import json
+import time
 from django.conf import settings
 from django.http import QueryDict
 from lib.util import *
@@ -16,7 +16,7 @@ PROJ_DB_CONFIG = settings.PROJ_DB_CONFIG
 # import sys
 # PROJ_LIB_DIR = settings.PROJ_LIB_DIR
 # sys.path.insert(0, PROJ_LIB_DIR)
-
+# from django.shortcuts import render
 
 class cmdb_host_information(View):
 
@@ -80,9 +80,12 @@ class cmdb_host_information(View):
                                               source_addr=source_addr)
         if not cmdb_host_info:
             try:
-                host_information = {"stat_time": stat_time, "host_user": host_user, "host_passwd": host_passwd,
-                                    "host_port": host_port, "source_addr": source_addr, "createor": createor
-                                    }
+                host_information = {"stat_time": stat_time,
+                                    "host_user": host_user,
+                                    "host_passwd": host_passwd,
+                                    "host_port": host_port,
+                                    "source_addr": source_addr,
+                                    "createor": createor}
                 db.select_database(PROJ_DB_CONFIG["database"]).select_table("cmdb_host_information"). \
                     add([host_information])
             except Exception as e:
@@ -152,6 +155,9 @@ class cmdb_host_information(View):
 
 
 class cmdb_storage_information(View):
+    """
+    共享存储视图函数
+    """
     def get(self, request):
         result = {}
         db = request.META.get("db")
@@ -183,8 +189,11 @@ class cmdb_storage_information(View):
 
         if mount_addr != "127.0.0.1":
             try:
-                local_mount = select_database_info(db, PROJ_DB_CONFIG["database"], "cmdb_storage_information",
-                                                   source_addr=source_addr, storage_mount_path=storage_mount_path,
+                local_mount = select_database_info(db,
+                                                   PROJ_DB_CONFIG["database"],
+                                                   "cmdb_storage_information",
+                                                   source_addr=source_addr,
+                                                   storage_mount_path=storage_mount_path,
                                                    mount_addr="127.0.0.1")
             except Exception as e:
                 result["code"] = 404
@@ -202,9 +211,12 @@ class cmdb_storage_information(View):
             return HttpResponse(status=404, content=json.dumps(result))
 
         try:
-            mount_info = db.select_database(PROJ_DB_CONFIG["database"]).select_table("cmdb_storage_information"). \
-                where({"source_addr": source_addr, "storage_mount_path": storage_mount_path,
-                       "mount_addr": mount_addr}).select('*')
+            mount_info = db.select_database(PROJ_DB_CONFIG["database"]). \
+                select_table("cmdb_storage_information"). \
+                where({"source_addr": source_addr,
+                       "storage_mount_path": storage_mount_path,
+                       "mount_addr": mount_addr}
+                      ).select('*')
         except Exception as e:
             result["code"] = 404
             result["message"] = u"数据库查询失败! err: %s" % (str(e))
@@ -220,10 +232,13 @@ class cmdb_storage_information(View):
                 else:
                     mnt_nfs = remote_nfs_mount(source_addr, storage_mount_path)
 
-                storage_information = {"stat_time": stat_time, "source_addr": source_addr,
-                                       "storage_mount_path": storage_mount_path, "createor": createor,
-                                       "local_path": mnt_nfs.local_path, "storage_status": 0, "mount_addr": mount_addr
-                                       }
+                storage_information = {"stat_time": stat_time,
+                                       "source_addr": source_addr,
+                                       "storage_mount_path": storage_mount_path,
+                                       "createor": createor,
+                                       "local_path": mnt_nfs.local_path,
+                                       "storage_status": 0,
+                                       "mount_addr": mount_addr}
                 try:
                     db.select_database(PROJ_DB_CONFIG["database"]).select_table("cmdb_storage_information"). \
                         add([storage_information])
@@ -248,17 +263,23 @@ class cmdb_storage_information(View):
         mount_addr = httpPut.get("mount_addr", '').strip()
         action = httpPut.get("action", '').strip()
         db = request.META.get("db")
-        print(source_addr, storage_mount_path, local_path, mount_addr, action, 'dfsdf')
+        """
+        print(source_addr, 
+              storage_mount_path, 
+              local_path, mount_addr, action, 
+              'cmdb_storage_information - put - data')
+        """
         if action == 'storage_mount':
             try:
                 if mount_addr == '127.0.0.1':
-                    print('sdfsdfwww')
+                    # print('cmdb_storage_information - put - mount_addr: 127.0.0.1')
                     mnt_nfs = local_nfs_mount(source_addr, storage_mount_path, local_path)
                 else:
-                    print("sdfsdf1")
+                    # print("cmdb_storage_information - put - mount_addr: else")
                     cmdb_host_info = select_database_info(db, PROJ_DB_CONFIG["database"],
-                                                          "cmdb_host_information", source_addr=mount_addr)
-                    print(cmdb_host_info)
+                                                          "cmdb_host_information",
+                                                          source_addr=mount_addr)
+                    # print('cmdb_host_info', cmdb_host_info)
                     if not cmdb_host_info:
                         result["code"] = 404
                         result["message"] = "%s主机信息没找到!" % mount_addr
@@ -266,9 +287,10 @@ class cmdb_storage_information(View):
                     else:
                         sshObj = ''
                         try:
-                            sshObj = controlHost(mount_addr, cmdb_host_info["host_user"],
-                                                 cmdb_host_info["host_passwd"], cmdb_host_info["host_port"],
-                                                 )
+                            sshObj = controlHost(mount_addr,
+                                                 cmdb_host_info["host_user"],
+                                                 cmdb_host_info["host_passwd"],
+                                                 cmdb_host_info["host_port"])
                         except Exception as e:
                             result["code"] = 404
                             result["message"] = "主机%sSSH连接失败! err:%s" % (mount_addr, str(e))
@@ -285,10 +307,9 @@ class cmdb_storage_information(View):
                 if mnt_status:
                     try:
                         db.select_database(PROJ_DB_CONFIG["database"]).select_table('cmdb_storage_information'). \
-                            set({"storage_status": 1}).where(
-                            {"source_addr": source_addr, "storage_mount_path": storage_mount_path,
-                             "local_path": local_path
-                             }).update()
+                            set({"storage_status": 1}).where({"source_addr": source_addr,
+                                                              "storage_mount_path": storage_mount_path,
+                                                              "local_path": local_path}).update()
                     except Exception as e:
                         result["code"] = 404
                         result["message"] = u"在数据库中修改存储状态失败! err: %s" % (str(e))
@@ -308,9 +329,10 @@ class cmdb_storage_information(View):
             result["storage_size"] = val[0]
             result["storage_used"] = val[1]
             try:
-                db.select_database(PROJ_DB_CONFIG["database"]).select_table("cmdb_storage_information"). \
-                    where({"source_addr": source_addr, "storage_mount_path": storage_mount_path}). \
-                    set(result).update()
+                db.select_database(PROJ_DB_CONFIG["database"]).select_table("cmdb_storage_information").where(
+                    {"source_addr": source_addr,
+                     "storage_mount_path": storage_mount_path}
+                ).set(result).update()
             except Exception as e:
                 msg = u'本地路径%s容量刷新失败! err: %s\n' % (mount_path, str(e))
                 result["code"] = 404
@@ -331,11 +353,16 @@ class cmdb_storage_information(View):
         local_path = httpDel.get("local_path", '').strip()
 
         try:
-            has_fs_bk_task = db.select_database(PROJ_DB_CONFIG["database"]).select_table(
-                "filesystem_backup_task").where({"backup_to_local_path": local_path},
-                                                vague=['backup_to_local_path']).select('*')
-            has_db_bk_task = db.select_database(PROJ_DB_CONFIG["database"]).select_table("database_backup_task").where(
-                {"backup_to_local_path": local_path}, vague=['backup_to_local_path']).select('*')
+            has_fs_bk_task = db.select_database(PROJ_DB_CONFIG["database"]).\
+                select_table("filesystem_backup_task").\
+                where({"backup_to_local_path": local_path},
+                      vague=['backup_to_local_path']).\
+                select('*')
+            has_db_bk_task = db.select_database(PROJ_DB_CONFIG["database"]).\
+                select_table("database_backup_task").\
+                where({"backup_to_local_path": local_path},
+                      vague=['backup_to_local_path']).\
+                select('*')
             # print(has_db_bk_task)
             # print(has_fs_bk_task)
             if any([has_db_bk_task, has_fs_bk_task]):
@@ -371,9 +398,10 @@ class cmdb_storage_information(View):
                         result["message"] = str(e)
                         return HttpResponse(status=404, content=json.dumps(result))
                 else:
-                    print("sdfsdf1")
+                    # print("sdfsdf1")
                     cmdb_host_info = select_database_info(db, PROJ_DB_CONFIG["database"],
-                                                          "cmdb_host_information", source_addr=mount_addr)
+                                                          "cmdb_host_information",
+                                                          source_addr=mount_addr)
                     print(cmdb_host_info)
                     if not cmdb_host_info:
                         result["code"] = 404
@@ -382,9 +410,10 @@ class cmdb_storage_information(View):
                     else:
                         sshObj = ''
                         try:
-                            sshObj = controlHost(mount_addr, cmdb_host_info["host_user"],
-                                                 cmdb_host_info["host_passwd"], cmdb_host_info["host_port"],
-                                                 )
+                            sshObj = controlHost(mount_addr,
+                                                 cmdb_host_info["host_user"],
+                                                 cmdb_host_info["host_passwd"],
+                                                 cmdb_host_info["host_port"],)
                         except Exception as e:
                             result["code"] = 404
                             result["message"] = "主机%sSSH连接失败! err:%s" % (mount_addr, str(e))
@@ -392,7 +421,8 @@ class cmdb_storage_information(View):
                         else:
                             mnt_nfs = remote_nfs_mount(source_addr, storage_mount_path, sshObj, local_path)
 
-                mnt_nfs.umount_nfs()
+                mnt_nfs.umount_nfs()  # 卸载挂载
+
             except Exception as e:
                 result["code"] = 404
                 result["message"] = str(e)
@@ -400,8 +430,10 @@ class cmdb_storage_information(View):
             else:
                 try:
                     db.select_database(PROJ_DB_CONFIG["database"]).select_table("cmdb_storage_information"). \
-                        where({"source_addr": source_addr, "storage_mount_path": storage_mount_path,
-                               "mount_addr": mount_addr}).delete()
+                        where({"source_addr": source_addr,
+                               "storage_mount_path": storage_mount_path,
+                               "mount_addr": mount_addr}
+                              ).delete()
                 except Exception as e:
                     result["code"] = 404
                     result['message'] = u'数据库操作失败! err: %s' % (str(e))
@@ -410,5 +442,3 @@ class cmdb_storage_information(View):
                     result["code"] = 200
                     result["message"] = u"主机%s共享存储存储%s删除成功!" % (source_addr, storage_mount_path)
                     return HttpResponse(status=200, content=json.dumps(result))
-
-# Create your views here.
