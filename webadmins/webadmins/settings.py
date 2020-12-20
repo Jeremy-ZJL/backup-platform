@@ -29,8 +29,10 @@ PROJ_DB_CONFIG = PROJ_CONFIG_OBJ.read_config("db")
 PROJ_REDIS_CONFIG = PROJ_CONFIG_OBJ.read_config("redis")
 POOL = dbPool(PROJ_DB_CONFIG)
 LOGGER = log().getLogger()
+
 djcelery.setup_loader()
 
+# celery配置
 platforms.C_FORCE_ROOT = True
 BROKER_URL = 'redis://{redis_server}:{redis_port}'.format(redis_server=PROJ_REDIS_CONFIG["host"],
                                                           redis_port=PROJ_REDIS_CONFIG["port"])

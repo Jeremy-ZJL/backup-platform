@@ -423,8 +423,10 @@ class backup_fs_manager(View):
             return HttpResponse(status=404, content=json.dumps(result))
         else:
 
-            r = celery_filesystem_full_backup.delay(cmdb_host_info=cmdb_host_info, backup_path=backup_path,
-                                                    backup_to_local_path=backup_to_local_path, action=action)
+            r = celery_filesystem_full_backup.delay(cmdb_host_info=cmdb_host_info,
+                                                    backup_path=backup_path,
+                                                    backup_to_local_path=backup_to_local_path,
+                                                    action=action)
             t_id = r.id
             stat_time = int(time.time())
             try:

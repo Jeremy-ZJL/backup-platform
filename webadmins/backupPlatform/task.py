@@ -24,14 +24,9 @@ POOL = settings.POOL
 class MyTask(app.Task):
     def on_failure(self, exc, task_id, args, kwargs, einfo):
         db = dbControl(POOL)
-        # print('{0!r} failed: {1!r}'.format(task_id, exc))
-        # print(args,  'args')
-        # print(kwargs, 'kwargs')
-        # print(einfo, 'einfo', type(einfo))
-        # print(str(einfo), type(einfo))
         try:
-            db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_task_history").set(
-                {"message": pymysql.escape_string(str(einfo))}). \
+            db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_task_history")\
+                .set({"message": pymysql.escape_string(str(einfo))}). \
                 where({"task_id": task_id}).update()
         except Exception as e:
             logger.warn(str(e))
@@ -40,10 +35,6 @@ class MyTask(app.Task):
 
     def on_success(self, retval, task_id, args, kwargs):
         db = dbControl(POOL)
-        # print(retval, 'retval')
-        # print(task_id, 'taskid')
-        # print(args, 'args')
-        # print(kwargs, 'kwargs', type(kwargs))
         try:
             db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_task_history").where(
                 {"task_id": task_id}). \
@@ -65,8 +56,8 @@ def celery_database_full_backup(cmdb_host_info, db_conn_info, backup_to_local_pa
     db_info.update(db_conn_info)
     db_info["my_files"] = db_conn_info["db_conf"]
     db_info["db_host"] = db_conn_info["source_addr"]
-    x = db_xtrabackup(sshObj, db_info)
-    result = x.xtrabackup_full_backup(backup_to_local_path, timestamp)  ##此处备份失败会raise一个错误出来!
+    xObj = db_xtrabackup(sshObj, db_info)
+    result = xObj.xtrabackup_full_backup(backup_to_local_path, timestamp)  # 此处备份失败会raise一个错误出来!
     sshObj.close()
     return result
 
@@ -115,9 +106,10 @@ def celery_filesystem_agent_install(cmdb_host_info, svc_type):
 def celery_filesystem_full_backup(cmdb_host_info, backup_path, backup_to_local_path, action):
     result = ''
     db = dbControl(POOL)
-    sshObj = controlHost(cmdb_host_info["source_addr"], cmdb_host_info["host_user"],
-                         cmdb_host_info["host_passwd"], cmdb_host_info["host_port"],
-                         )
+    sshObj = controlHost(cmdb_host_info["source_addr"],
+                         cmdb_host_info["host_user"],
+                         cmdb_host_info["host_passwd"],
+                         cmdb_host_info["host_port"])
     d = distribute_filesystem_backup(sshObj, cmdb_host_info["source_addr"], backup_path, backup_to_local_path)
     if action == "start":
         data = {"backup_status": 2}
