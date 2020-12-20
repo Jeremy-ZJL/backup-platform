@@ -272,14 +272,14 @@ class cmdb_storage_information(View):
         if action == 'storage_mount':
             try:
                 if mount_addr == '127.0.0.1':
-                    # print('cmdb_storage_information - put - mount_addr: 127.0.0.1')
+                    print('---------------cmdb_storage_information_put_mount_addr: 127.0.0.1')
                     mnt_nfs = local_nfs_mount(source_addr, storage_mount_path, local_path)
                 else:
-                    # print("cmdb_storage_information - put - mount_addr: else")
+                    print('---------------cmdb_storage_information_put_mount_addr: other')
                     cmdb_host_info = select_database_info(db, PROJ_DB_CONFIG["database"],
                                                           "cmdb_host_information",
                                                           source_addr=mount_addr)
-                    print('cmdb_host_info', cmdb_host_info)
+                    print('---------------cmdb_host_info---------------\n', cmdb_host_info)
                     if not cmdb_host_info:
                         result["code"] = 404
                         result["message"] = "%s主机信息没找到!" % mount_addr
@@ -299,6 +299,7 @@ class cmdb_storage_information(View):
                             mnt_nfs = remote_nfs_mount(source_addr, storage_mount_path, sshObj, local_path)
 
                 mnt_status = mnt_nfs.mount_nfs()
+                print('---------------mnt_status---------------\n', mnt_status)
             except Exception as e:
                 result["code"] = 404
                 result["message"] = str(e)

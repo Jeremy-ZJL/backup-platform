@@ -57,8 +57,10 @@ class MyTask(app.Task):
 
 @app.task(base=MyTask)
 def celery_database_full_backup(cmdb_host_info, db_conn_info, backup_to_local_path, timestamp):
-    sshObj = controlHost(cmdb_host_info["source_addr"], cmdb_host_info["host_user"],
-                         cmdb_host_info["host_passwd"], cmdb_host_info["host_port"])
+    sshObj = controlHost(cmdb_host_info["source_addr"],
+                         cmdb_host_info["host_user"],
+                         cmdb_host_info["host_passwd"],
+                         cmdb_host_info["host_port"])
     db_info = {}
     db_info.update(db_conn_info)
     db_info["my_files"] = db_conn_info["db_conf"]

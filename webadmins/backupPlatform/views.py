@@ -168,6 +168,9 @@ class backup_host_manager(View):
 
 
 class backup_database_manager(View):
+    """
+    数据库备份
+    """
     def get(self, request):
         result = {}
         db = request.META.get("db")
@@ -210,10 +213,12 @@ class backup_database_manager(View):
             return HttpResponse(status=404, content=json.dumps(result))
 
         db_backup_info = {
-            "stat_time": stat_time, "source_addr": source_addr, "createor": createor,
+            "stat_time": stat_time,
+            "source_addr": source_addr,
+            "createor": createor,
             "backup_to_local_path": os.path.join(backup_to_local_path, 'backup_mysql')
         }
-        print(db_backup_info)
+        print('------------------------db_backup_info: ', db_backup_info)
         try:
             db.select_database(PROJ_DB_CONFIG["database"]).select_table("database_backup_task").add([db_backup_info])
         except Exception as e:
@@ -254,13 +259,16 @@ class backup_database_manager(View):
         createor = request.session.get("um_account", "unknown")
         db = request.META.get("db")
         cmdb_host_info = select_database_info(db, PROJ_DB_CONFIG["database"],
-                                              "cmdb_host_information", source_addr=source_addr)
+                                              "cmdb_host_information",
+                                              source_addr=source_addr)
 
         db_conn_info = select_database_info(db, PROJ_DB_CONFIG["database"],
-                                            "backup_host_manager", source_addr=source_addr
-                                            )
-        # print(cmdb_host_info)
-        # print(db_conn_info)
+                                            "backup_host_manager",
+                                            source_addr=source_addr)
+
+        print('------------------------cmdb_host_info: ', cmdb_host_info)
+        print('------------------------db_conn_info: ', db_conn_info)
+
         if not cmdb_host_info:
             result["code"] = 404
             result["message"] = "%s主机信息没找到!" % source_addr
@@ -274,12 +282,18 @@ class backup_database_manager(View):
         today = ControlTime.date_today(_format="%Y%m%d%H%M%S")
         timestamp = today[0]
         stat_time = today[1]
-        t = celery_database_full_backup.delay(cmdb_host_info=cmdb_host_info, db_conn_info=db_conn_info,
-                                              backup_to_local_path=backup_to_local_path, timestamp=timestamp)
+        t = celery_database_full_backup.delay(cmdb_host_info=cmdb_host_info,
+                                              db_conn_info=db_conn_info,
+                                              backup_to_local_path=backup_to_local_path,
+                                              timestamp=timestamp)
         t_id = t.id
-        data = {"stat_time": stat_time, "task_id": t_id, "source_addr": source_addr,
-                "svc_type": "db", "backup_to_local_path": os.path.join(backup_to_local_path, timestamp),
-                "backup_path": "", "createor": createor,
+        data = {"stat_time": stat_time,
+                "task_id": t_id,
+                "source_addr": source_addr,
+                "svc_type": "db",
+                "backup_to_local_path": os.path.join(backup_to_local_path, timestamp),
+                "backup_path": "",
+                "createor": createor,
                 "task_status": 0}
         try:
             db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_task_history").add([data])
