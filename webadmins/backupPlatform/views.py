@@ -643,5 +643,3 @@ class backup_policy_sched_manager(View):
             result["code"] = 200
             result["message"] = "任务ID:%s删除成功!" % t_id
             return HttpResponse(json.dumps(result))
-
-# Create your views here.

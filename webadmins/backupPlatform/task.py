@@ -80,21 +80,21 @@ def celery_filesystem_agent_install(cmdb_host_info, svc_type):
                          )
     if svc_type == 'fs':
         data = {"rsync_status": 1, "sersync_status": 1}
-        fs_agent_install = backup_agent_install(sshObj)  ##celery
+        fs_agent_install = backup_agent_install(sshObj)  # celery
         x = fs_agent_install.fs_backup_agent()
         result += x["msg"]
 
     elif svc_type == 'db':
         data = {"xtrabackup_status": 1}
-        db_agent_install = backup_agent_install(sshObj)  ##celery
+        db_agent_install = backup_agent_install(sshObj)  # celery
         x = db_agent_install.db_backup_agent()
         result += x["msg"]
 
     elif svc_type == "all":
         data = {"rsync_status": 1, "sersync_status": 1, "xtrabackup_status": 1}
-        fs_agent_install = backup_agent_install(sshObj)  ##celery
+        fs_agent_install = backup_agent_install(sshObj)  # celery
         x = fs_agent_install.fs_backup_agent()
-        db_agent_install = backup_agent_install(sshObj)  ##celery
+        db_agent_install = backup_agent_install(sshObj)  # celery
         y = db_agent_install.db_backup_agent()
         result += x["msg"]
         result += y["msg"]
