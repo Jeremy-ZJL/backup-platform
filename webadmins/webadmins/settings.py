@@ -14,7 +14,7 @@ import os
 import sys
 import djcelery  # django-celery
 from lib.util import *
-from lib.dbControl import *
+from lib.dbControl import dbPool
 from lib.logger import log
 from celery import Celery, platforms
 
@@ -30,7 +30,7 @@ PROJ_REDIS_CONFIG = PROJ_CONFIG_OBJ.read_config("redis")
 POOL = dbPool(PROJ_DB_CONFIG)
 LOGGER = log().getLogger()
 
-djcelery.setup_loader()
+djcelery.setup_loader()  # django-celery
 
 # celery配置
 platforms.C_FORCE_ROOT = True

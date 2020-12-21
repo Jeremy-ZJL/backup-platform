@@ -1,11 +1,11 @@
 # coding:utf8
 
-from sshConn import *
 from util import *
 import os
 import traceback
 from logger import log
 
+# from lib.sshConn import controlHost
 logger = log().getLogger()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -185,9 +185,10 @@ class backup_agent_install:
 
 
 if __name__ == '__main__':
-    sshObj = controlHost('192.168.1.11', 'root', '123456', 22)
-    print(sshObj)
-    res = backup_agent_install(sshObj)
+    pass
+    # sshObj = controlHost('192.168.1.11', 'root', '123456', 22)
+    # print(sshObj)
+    # res = backup_agent_install(sshObj)
 
     # print(res.check_rsync())
     # print(res.install_rsync())
@@ -200,5 +201,4 @@ if __name__ == '__main__':
 
     # print(res.fs_backup_agent())
     # print(res.db_backup_agent())
-    print(res.result)
-
+    # print(res.result)

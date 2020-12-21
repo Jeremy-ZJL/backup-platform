@@ -2,12 +2,13 @@
 
 
 import sys
-from lib.sshConn import *
 from lib.util import *
 from logger import log
 
 logger = log().getLogger()
 
+
+# from lib.sshConn import controlHost
 
 class DB_BACKUP_ERROR(Exception):
     pass

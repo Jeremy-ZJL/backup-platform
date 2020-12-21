@@ -1,9 +1,9 @@
 from django.conf import settings
-from lib.sshConn import *
-from lib.db_backup_tools import *
-from lib.backup_agent_install import *
-from lib.dbControl import *
-from lib.fs_backup_tools import *
+from lib.sshConn import controlHost
+from lib.db_backup_tools import db_xtrabackup
+from lib.backup_agent_install import backup_agent_install
+from lib.dbControl import dbControl
+from lib.fs_backup_tools import distribute_filesystem_backup
 from lib.util import *
 import traceback
 import pymysql
