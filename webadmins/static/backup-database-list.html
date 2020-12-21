@@ -114,11 +114,13 @@
         var jsonObj = JSON.parse(res);
         //alert(jsonObj.message);
         console.log(
+            '<<<----------------------------------------------->', '\n',
             'database_backup_start_url: ', url, '\n',
             'line_id: ', line_id, '\n',
             'tr_: ', line_id, '\n',
             'ajaxPutData: ', data, '\n',
-            'ajaxPutRes: ', res
+            'ajaxPutRes: ', res, '\n',
+            '<----------------------------------------------->>>'
         );
         modalalertdemo(jsonObj.message);
     }
@@ -139,11 +141,13 @@
             var jsonObj = JSON.parse(res);
 
             console.log(
+                '<<<----------------------------------------------->', '\n',
                 'database_backup_del_url: ', url, '\n',
                 'line_id: ', line_id, '\n',
                 'tr_: ', line_id, '\n',
                 'ajaxPutData: ', data, '\n',
-                'ajaxPutRes: ', res
+                'ajaxPutRes: ', res, '\n',
+                '<----------------------------------------------->>>'
             );
             alert(jsonObj.message);
             window.location.reload();
@@ -164,8 +168,10 @@
             res += t;
         }
         console.log(
+            '<<<----------------------------------------------->', '\n',
             't_body_jsonObj: ', jsonObj, '\n',
             '渲染代码_res: ', res, '\n',
+            '<----------------------------------------------->>>'
         );
         document.getElementById("t_body").innerHTML = res;
     }
@@ -176,8 +182,10 @@
         t_body(res);
 
         console.log(
+            '<<<----------------------------------------------->', '\n',
             'backup_data_list_ready_url: ', url, '\n',
             'ajaxGetRes: ', res, '\n',
+            '<----------------------------------------------->>>'
         );
     });
 
