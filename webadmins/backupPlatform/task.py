@@ -7,8 +7,8 @@ from lib.fs_backup_tools import distribute_filesystem_backup
 from lib.util import *
 import traceback
 import pymysql
+import os
 
-# import os
 # import time
 # import sys
 # PROJ_LIB_DIR = settings.PROJ_LIB_DIR
@@ -139,7 +139,7 @@ def celery_filesystem_full_backup(cmdb_host_info, backup_path, backup_to_local_p
         db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_task_history").where({"task_id": task_id}). \
             set({"backup_path": backup_to_local_path, "backup_to_local_path": fs_full_backup_path}).update()
 
-        result = d.fs_full_backup(backup_to_local_path, fs_full_backup_path)  ##celery
+        result = d.fs_full_backup(backup_to_local_path, fs_full_backup_path)  # celery
 
     if hasattr(sshObj, "close"):
         sshObj.close()
