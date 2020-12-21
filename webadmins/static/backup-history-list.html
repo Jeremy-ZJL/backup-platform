@@ -134,33 +134,33 @@
         var message = js_object["message"];
         for (var j = 0; j < message.length; j++) {
             var host_map = message[j];
-            if (host_map["task_status"] == 1) {
+            if (host_map["task_status"] === 1) {
                 var task_status = "<font color='green'>成功</font>";
             } else {
                 var task_status = "<font color='red'>失败</font>";
             }
 
-            if (host_map["svc_type"] == "db") {
+            if (host_map["svc_type"] === "db") {
                 var svc_type = "数据库备份";
                 var backup_path = "<td style='text-align: center'>" + host_map["backup_path"] + "</td>"
                 var backup_to_local_path = "<td title='" + host_map["backup_to_local_path"] + "'>" + host_map["backup_to_local_path"].substring(0, 20) + "</td>"
-            } else if (host_map["svc_type"] == "start") {
+            } else if (host_map["svc_type"] === "start") {
                 var svc_type = "文件系统备份启动";
                 var backup_path = "<td style='text-align: center' title='" + host_map["backup_path"] + "'>" + host_map["backup_path"].substring(0, 20) + "</td>";
                 var backup_to_local_path = "<td title='" + host_map["backup_to_local_path"] + "'>" + host_map["backup_to_local_path"].substring(0, 20) + "</td>"
-            } else if (host_map["svc_type"] == "stop") {
+            } else if (host_map["svc_type"] === "stop") {
                 var svc_type = "文件系统备份停止";
                 var backup_path = "<td style='text-align: center' title='" + host_map["backup_path"] + "'>" + host_map["backup_path"].substring(0, 20) + "</td>";
                 var backup_to_local_path = "<td title='" + host_map["backup_to_local_path"] + "'>" + host_map["backup_to_local_path"].substring(0, 20) + "</td>"
-            } else if (host_map["svc_type"] == "fs_full_backup") {
+            } else if (host_map["svc_type"] === "fs_full_backup") {
                 var svc_type = "文件系统全量备份";
                 var backup_path = "<td style='text-align: center' title='" + host_map["backup_path"] + "'>" + host_map["backup_path"].substring(0, 20) + "</td>";
                 var backup_to_local_path = "<td title='" + host_map["backup_to_local_path"] + "'>" + host_map["backup_to_local_path"].substring(0, 20) + "</td>"
-            } else if (host_map["svc_type"] == "agent_install") {
+            } else if (host_map["svc_type"] === "agent_install") {
                 var svc_type = "代理安装";
                 var backup_path = "<td></td>";
                 var backup_to_local_path = "<td></td>";
-            } else if (host_map["svc_type"] == "duplicate_clean") {
+            } else if (host_map["svc_type"] === "duplicate_clean") {
                 var svc_type = "副本清理";
                 var backup_path = "<td></td>";
                 var backup_to_local_path = "<td></td>";
@@ -172,13 +172,13 @@
                 "<td>" + task_status + "</td><td>" + host_map["createor"] + "</td></tr>";
 
             // console.log(t);
-            console.log(
-                '-----------------------------------------------', '\n',
-                'host_map: ', host_map, '\n',
-                '-----------------------------------------------'
-            );
             result += t;
         }
+        console.log(
+            '<<<----------------------------------------------->', '\n',
+            'message: ', message, '\n',
+            '<----------------------------------------------->>>'
+        );
         document.getElementById("t_body").innerHTML = result;
     }
 
