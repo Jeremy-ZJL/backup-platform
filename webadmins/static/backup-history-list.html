@@ -216,7 +216,7 @@
         let res2 = json_max_page.message / 20;
         var max_page = parseInt(res2);
         divPage(now_page, max_page);
-        var outer = pageClick();
+        outer = pageClick();
         console.log(
             '<<<----------------------------------------------->', '\n',
             'ready_url', url, '\n',
@@ -248,7 +248,7 @@
                 '<----------------------------------------------->>>'
             );
 
-            if (action == 'before') {
+            if (action === 'before') {
                 if (now_page <= minPage) {
                     var s = "now_page: " + now_page + "min_page: " + minPage + "max_page: " + max_page;
                     console.log('<<<--------s: ', s, '-------->>>');
@@ -268,7 +268,7 @@
                     divPage(now_page, max_page);
                 }
 
-            } else if (action == 'next') {
+            } else if (action === 'next') {
                 if (now_page >= max_page) {
                     var data = {"now_page": max_page};
                     var s = "now_page: " + now_page + "min_page: " + minPage + "max_page: " + max_page;
@@ -299,9 +299,7 @@
         return btn1 + "<span>&nbsp;&nbsp;&nbsp;</span>" + btn2
     }
 
-
 </script>
-
 
 </body>
 </html>
