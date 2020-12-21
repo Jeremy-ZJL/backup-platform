@@ -102,7 +102,7 @@
     }
 
     function database_backup_start(line_id) {
-        var url = location.protocol + "//" + location.hostname + ":" + location.port + BACKUP_DATABASE_MANAGER;
+        var database_backup_start_url = location.protocol + "//" + location.hostname + ":" + location.port + BACKUP_DATABASE_MANAGER;
         var tr = document.getElementById("tr_" + line_id).getElementsByTagName("td");
         var source_addr = tr[1].innerText;
         var backup_to_local_path = tr[2].innerText;
@@ -110,12 +110,13 @@
             "source_addr": source_addr,
             "backup_to_local_path": backup_to_local_path
         };
-        var res = ajaxPut(url, data);
+        console.log('put start')
+        var res = ajaxPut(database_backup_start_url, data);
         var jsonObj = JSON.parse(res);
         //alert(jsonObj.message);
         console.log(
             '<<<----------------------------------------------->', '\n',
-            'database_backup_start_url: ', url, '\n',
+            'database_backup_start_url: ', database_backup_start_url, '\n',
             'line_id: ', line_id, '\n',
             'tr_: ', line_id, '\n',
             'ajaxPutData: ', data, '\n',
