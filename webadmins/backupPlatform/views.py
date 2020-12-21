@@ -1,9 +1,12 @@
+import json
+import os
+import time
 from django.http import HttpResponse
 from django.views.generic import View
-import json
 from django.conf import settings
 from django.http import QueryDict
-from db_backup_tools import *
+from lib.util import *
+
 from backupPlatform.task import celery_database_full_backup, celery_filesystem_agent_install, \
     celery_filesystem_full_backup
 
@@ -11,7 +14,7 @@ PROJ_DB_CONFIG = settings.PROJ_DB_CONFIG
 
 
 # from django.shortcuts import render
-# from lib.util import *
+# from db_backup_tools import *
 # from lib.sshConn import *
 # from lib.backup_agent_install import *
 # import pymysql
@@ -447,14 +450,24 @@ class backup_fs_manager(View):
                         result["message"] = str(e)
                         return HttpResponse(status=404, content=json.dumps(result))
                     else:
-                        data = {"stat_time": stat_time, "task_id": t_id, "source_addr": source_addr, "svc_type": action,
-                                "backup_path": "", "backup_to_local_path": "", "task_status": 0,
+                        data = {"stat_time": stat_time,
+                                "task_id": t_id,
+                                "source_addr": source_addr,
+                                "svc_type": action,
+                                "backup_path": "",
+                                "backup_to_local_path": "",
+                                "task_status": 0,
                                 "createor": createor}
                         db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_task_history").add([data])
 
                 else:
-                    data = {"stat_time": stat_time, "task_id": t_id, "source_addr": source_addr, "svc_type": action,
-                            "backup_path": backup_path, "backup_to_local_path": backup_to_local_path, "task_status": 0,
+                    data = {"stat_time": stat_time,
+                            "task_id": t_id,
+                            "source_addr": source_addr,
+                            "svc_type": action,
+                            "backup_path": backup_path,
+                            "backup_to_local_path": backup_to_local_path,
+                            "task_status": 0,
                             "createor": createor}
                     db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_task_history").add([data])
 
@@ -555,9 +568,15 @@ class backup_policy_manager(View):
         backup_times_json = json.loads(backup_times)
         for j in backup_times_json:
             t_id = create_jid()
-            t = {"p_id": p_id, "t_id": t_id, "day_of_week": day_of_week,
-                 "sched_hour": j["hour"], "sched_minute": j["minute"], "backup_path": backup_path,
-                 "backup_to_local_path": backup_to_local_path, "svc_type": svc_type, "source_addr": source_addr}
+            t = {"p_id": p_id,
+                 "t_id": t_id,
+                 "day_of_week": day_of_week,
+                 "sched_hour": j["hour"],
+                 "sched_minute": j["minute"],
+                 "backup_path": backup_path,
+                 "backup_to_local_path": backup_to_local_path,
+                 "svc_type": svc_type,
+                 "source_addr": source_addr}
             tasks.append(t)
 
         try:

@@ -94,13 +94,11 @@ function ajaxPut(url, data, async=false){
         type:"PUT",
         async:async,
         success:function(msg){
-                result =  msg;
+            result =  msg;
         },
-
         error: function(XMLHttpRequest, textStatus, errorThrown) {
             result = XMLHttpRequest.responseText
          },
-
     });
     return result
 }
