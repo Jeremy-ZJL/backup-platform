@@ -36,9 +36,9 @@ class MyTask(app.Task):
     def on_success(self, retval, task_id, args, kwargs):
         db = dbControl(POOL)
         try:
-            db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_task_history").where(
-                {"task_id": task_id}). \
-                set({"task_status": 1, "message": pymysql.escape_string(str(retval))}).update()
+            db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_task_history")\
+                .where({"task_id": task_id}).set({"task_status": 1, "message": pymysql.escape_string(str(retval))})\
+                .update()
         except Exception as e:
             traceback.print_exc()
             logger.warn(str(e))

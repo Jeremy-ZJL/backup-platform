@@ -332,10 +332,9 @@ class cmdb_storage_information(View):
             try:
                 db.select_database(PROJ_DB_CONFIG["database"]).select_table("cmdb_storage_information").where(
                     {"source_addr": source_addr,
-                     "storage_mount_path": storage_mount_path}
-                ).set(result).update()
+                     "storage_mount_path": storage_mount_path}).set(result).update()
             except Exception as e:
-                msg = u'本地路径%s容量刷新失败! err: %s\n' % (mount_path, str(e))
+                msg = u'本地路径%s容量刷新失败! err: %s\n' % (local_path, str(e))
                 result["code"] = 404
                 result["message"] = msg
                 return HttpResponse(status=404, content=json.dumps(result))

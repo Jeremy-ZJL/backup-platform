@@ -29,8 +29,12 @@ class db_xtrabackup:
         full_backup_path = os.path.join(os.path.join(backup_path, self.sshObj.host), timestamp)
 
         backup_cmd = '/usr/local/percona-xtrabackup/bin/innobackupex ' \
-                     '--defaults-file={my_files} --no-timestamp --user={db_user} ' \
-                     '--password={db_passwd} --port={db_port} --host={db_host} {full_backup_path}' \
+                     '--defaults-file={my_files} ' \
+                     '--no-timestamp ' \
+                     '--user={db_user} ' \
+                     '--password={db_passwd} ' \
+                     '--port={db_port} ' \
+                     '--host={db_host} {full_backup_path}' \
             .format(my_files=self.db_info["my_files"],
                     db_user=self.db_info["db_user"],
                     db_passwd=self.db_info["db_passwd"],
