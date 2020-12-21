@@ -19,7 +19,8 @@
 </head>
 <body>
 <nav class="breadcrumb">
-    <i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 备份管理
+    <i class="Hui-iconfont">&#xe67f;</i> 首页
+    <span class="c-gray en">&gt;</span> 备份管理
     <span class="c-gray en">&gt;</span> 操作历史
 </nav>
 
@@ -212,19 +213,19 @@
         var max_page_res = backup_history_sum_page();
         var json_max_page = JSON.parse(max_page_res);
         var now_page = 1;
-        let res2 = json_max_page.message / 20
+        let res2 = json_max_page.message / 20;
         var max_page = parseInt(res2);
         divPage(now_page, max_page);
         var outer = pageClick();
         console.log(
-            '-----------------------------------------------', '\n',
+            '<<<----------------------------------------------->', '\n',
             'ready_url', url, '\n',
             'ajaxGet_res: ', res, '\n',
             'json_max_page: ', json_max_page, '\n',
             'now_page: ', now_page, '\n',
             'max_page: ', max_page, '\n',
             'outer: ', outer, '\n',
-            '-----------------------------------------------'
+            '<----------------------------------------------->>>'
         );
     });
 
