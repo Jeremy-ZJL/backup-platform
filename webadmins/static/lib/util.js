@@ -20,18 +20,22 @@ function modalalertdemo(msg, interval=5000){
 
 function login_acquire(){
     var cookie = document.cookie;
-    console.log('login_acquire - cookie : ', cookie, 'login_acquire - cookieType : ', typeof cookie);
-
     var re = /login=true/i;  // 正则表达式
     var login = cookie.search(re);  // 正则匹配，计算出cookie中是否有'login=true'
     /* cookie这个变量是string，所以可以使用search()方法
     search() 方法用于检索字符串中指定的子字符串，或检索与正则表达式相匹配的子字符串。
     如果没有找到任何匹配的子串，则返回 -1。 */
-    // console.log('login_acquire - login : ', login);
 
     if (login === -1){  // 如果上面没有匹配到 'login=true', 则表示未登录，返回登录页面
         window.open("/static/login.html", '_self')
     }
+    console.log(
+        '<<<----------------------------------------------->', '\n',
+        'login_acquire_cookie: ', cookie, '\n',
+        'login_acquire_cookieType: ', typeof cookie, '\n',
+        'login_acquire_login: ', login, '\n',
+        '<----------------------------------------------->>>'
+    );
 }
 
 function format_timestamp(timestamp) {  // 日期格式化
