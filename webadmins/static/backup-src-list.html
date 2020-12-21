@@ -103,14 +103,10 @@
 
     function backup_agent_install(line_id) {
         var url = location.protocol + "//" + location.hostname + ":" + location.port + BACKUP_HOST_MANAGER;
-        console.log(line_id);
-        console.log("tr_" + line_id);
         var tr = document.getElementById("tr_" + line_id).getElementsByTagName("td");
         var source_addr = tr[1].innerText;
         var svc_type = tr[2].innerText;
         //var storage_source = tr[6].innerText;
-        console.log(source_addr);
-        console.log(svc_type);
 
         if (svc_type == "全部") {
             var svc_type = "all"
@@ -124,37 +120,39 @@
         var res = ajaxPut(url, data);
         var jsonObj = JSON.parse(res);
         //alert(jsonObj.message);
+        console.log(
+            '<<<----------------------------------------------->', '\n',
+            'backup_agent_install_url', url, '\n',
+            'line_id: ', line_id, '\n',
+            'source_addr: ', source_addr, '\n',
+            'svc_type: ', svc_type, '\n',
+            '<----------------------------------------------->>>'
+        );
         modalalertdemo(jsonObj.message);
     }
 
     function backup_src_host_del(line_id) {
-
         var r = window.confirm("确认删除吗?");
-        if (r == true) {
-
+        if (r === true) {
             var url = location.protocol + "//" + location.hostname + ":" + location.port + BACKUP_HOST_MANAGER;
-            console.log(line_id);
-            console.log("tr_" + line_id);
             var tr = document.getElementById("tr_" + line_id).getElementsByTagName("td");
-            console.log(tr);
             var source_addr = tr[1].innerText;
-            // var svc_type = tr[2].innerText;
-            //var storage_source = tr[6].innerText;
-            console.log(source_addr);
-            // console.log(svc_type);
             var data = {"source_addr": source_addr};
             var res = ajaxDelete(url, data);
-            console.log(res);
             var jsonObj = JSON.parse(res);
-            console.log(jsonObj);
-            console.log(jsonObj.message);
             alert(jsonObj.message);
             window.location.reload();
             // modalalertdemo(jsonObj.message);
-
+            console.log(
+                '<<<----------------------------------------------->', '\n',
+                'backup_src_host_del_url', url, '\n',
+                'line_id: ', line_id, '\n',
+                'source_addr: ', source_addr, '\n',
+                'ajaxDelete_res: ', jsonObj, '\n',
+                'jsonObj.message: ', jsonObj.message, '\n',
+                '<----------------------------------------------->>>'
+            );
         }
-
-
     }
 
     function backup_src_add(title, url, w, h) {
@@ -162,24 +160,29 @@
     }
 
     function backup_src_edit(line_id, title, url, w, h) {
-
-        console.log(line_id);
-        console.log("tr_" + line_id);
         var tr = document.getElementById("tr_" + line_id).getElementsByTagName("td");
         var source_addr = tr[1].innerText;
         // var svc_type = tr[2].innerText;
         //var storage_source = tr[6].innerText;
-        console.log(source_addr);
         $.cookie("backup_src_source_addr", source_addr);
         // console.log(svc_type);
-
         layer_show(title, url, w, h);
+        console.log(
+            '<<<----------------------------------------------->', '\n',
+            'backup_src_edit', '\n',
+            'line_id: ', line_id, '\n',
+            'source_addr: ', source_addr, '\n',
+            '<----------------------------------------------->>>'
+        );
     }
 
     function t_body(msg) {
         var jsonObj = JSON.parse(msg);
         console.log(
-            'backup_src_list_jsonObj: ', jsonObj
+            '<<<----------------------------------------------->', '\n',
+            't_body', '\n',
+            'backup_src_list_jsonObj: ', jsonObj, '\n',
+            '<----------------------------------------------->>>'
         );
         var res = '';
         for (var j = 0; j < jsonObj["message"].length; j++) {
@@ -230,19 +233,24 @@
                 "<a title='安装代理' href='javascript:;' onclick='backup_agent_install(" + j + ")' class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe62e;</i></a>\n" +
                 "<a title='修改' href='javascript:;' onclick='backup_src_edit(" + j + "," + "\"修改\", \"backup-src-edit.html\", 400, 420)' class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe6df;</i></a>\n" +
                 "<a title='删除' href='javascript:;' onclick='backup_src_host_del(" + j + ")' class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe6e2;</i></a></td></tr>";
-            console.log(t);
+            // console.log(t);
             res += t;
         }
-        console.log(res);
+        // console.log(res);
         document.getElementById("t_body").innerHTML = res;
     }
 
     $(document).ready(function () {
         var source_addr_url = location.protocol + "//" + location.hostname + ":" + location.port + BACKUP_HOST_MANAGER;
-        console.log(source_addr_url);
-        var msg = ajaxGet(source_addr_url);
-        console.log(msg);
-        t_body(msg);
+        var res = ajaxGet(source_addr_url);
+        t_body(res);
+        console.log(
+            '<<<----------------------------------------------->', '\n',
+            'ready', '\n',
+            'source_addr_url: ', source_addr_url, '\n',
+            'ajaxGet_res: ', res, '\n',
+            '<----------------------------------------------->>>'
+        );
     });
 
 

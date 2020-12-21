@@ -5,25 +5,23 @@ from apscheduler.triggers.interval import IntervalTrigger
 from apscheduler.triggers.cron import CronTrigger
 import os
 import traceback
-import sys, subprocess
-
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", 'webadmins.settings')
-from django.conf import settings
-
-PROJ_DB_CONFIG = settings.PROJ_DB_CONFIG
-sys.path.insert(0, settings.PROJ_LIB_DIR)
-from dbControl import *
-from logger import log
-
-logger = log().getLogger()
-POOL = settings.POOL
+import sys
 import time
-
+from lib.dbControl import *
+from lib.logger import log
+from django.conf import settings
 from abc import ABCMeta, abstractmethod
 import sched_task.sched_db_backup_tasks
 import sched_task.sched_fs_backup_tasks
 import sched_task.sched_clean_backup_duplicate
 
+logger = log().getLogger()
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", 'webadmins.settings')
+PROJ_DB_CONFIG = settings.PROJ_DB_CONFIG
+POOL = settings.POOL
+
+
+# sys.path.insert(0, settings.PROJ_LIB_DIR)
 
 def f1(*args, **kwargs):
     print(args)
@@ -101,7 +99,8 @@ class schedule(abstract_schedule):
         db = dbControl(POOL)
         result = {}
         try:
-            res = db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_sched_task_manager").select('*',final="dict")
+            res = db.select_database(PROJ_DB_CONFIG["database"])\
+                .select_table("backup_sched_task_manager").select('*', final="dict")
         except Exception as e:
             traceback.print_exc()
             logger.warn("调取器获取任务调度策略失败! err: %s" % (str(e)))
