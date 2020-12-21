@@ -2,13 +2,9 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="renderer" content="webkit|ie-comp|ie-stand">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport"
-          content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
-    <link rel="Bookmark" href="/favicon.ico">
-    <link rel="Shortcut Icon" href="/favicon.ico"/>
+    <link rel="Bookmark" href="favicon.ico">
+    <link rel="Shortcut Icon" href="favicon.ico"/>
 
     <link href="static/h-ui/css/H-ui.min.css" rel="stylesheet" type="text/css"/>
     <link href="static/h-ui.admin/css/H-ui.admin.css" rel="stylesheet" type="text/css"/>
@@ -50,7 +46,12 @@
 
     function t_body(msg) {
         var jsonObj = JSON.parse(msg);
-        console.log(jsonObj);
+        console.log(
+            '<<<----------------------------------------------->', '\n',
+            't_body: ', '\n',
+            'jsonObj: ', jsonObj, '\n',
+            '<----------------------------------------------->>>'
+        );
         var result = '';
         for (var j = 0; j < jsonObj["message"].length; j++) {
             var items = jsonObj.message[j];
@@ -65,8 +66,8 @@
                 "<td>" + items["p_id"] +
                 "</td><td>" + items["t_id"] + "</td><td>" + day_of_week_str.join(',') +
                 "</td><td>" + items["sched_hour"] + "</td><td>" + items["sched_minute"] + "</td><td>" +
-                "<a title='删除' href='javascript:;' onclick='backup_policy_sched_del(" + j + ")' class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe6e2;</i></a></td></tr>";
-            +"</td></tr>";
+                "<a title='删除' href='javascript:;' onclick='backup_policy_sched_del(" + j + ")' class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe6e2;</i></a></td></tr>" +
+                "</td></tr>";
             result += t;
         }
         document.getElementById("t_body").innerHTML = result;
@@ -76,19 +77,23 @@
     function backup_policy_sched_del(line_id) {
         var r = window.confirm("确定删除此条策略吗?");
 
-        if (r == true) {
-
+        if (r === true) {
             var url = location.protocol + "//" + location.hostname + ":" + location.port + BACKUP_POLICY_SCHED_MANAGER;
             var tr = document.getElementById("tr_" + line_id).getElementsByTagName("td");
             var t_id = tr[1].innerText;
             var p_id = tr[0].innerText;
             var data = {"t_id": t_id, "p_id": p_id};
-            console.log(data);
             var res = ajaxDelete(url, data);
-            console.log(res);
             var jsonObj = JSON.parse(res);
-            alert(jsonObj.message);
             window.location.reload();
+
+            console.log(
+                '<<<----------------------------------------------->', '\n',
+                'backup_policy_sched_del_url: ', url, '\n',
+                'data: ', data, '\n',
+                'ajaxDelete_res_jsonObj: ', jsonObj, '\n',
+                '<----------------------------------------------->>>'
+            );
         }
     }
 
@@ -96,12 +101,18 @@
     $(document).ready(function () {
         var url = location.protocol + "//" + location.hostname + ":" + location.port + BACKUP_POLICY_SCHED_MANAGER;
         var p_id = $.cookie("sched_policy_id");
-        console.log(p_id);
-        console.log(url);
         var data = {"p_id": p_id};
         var msg = ajaxGet_data(url, data);
         t_body(msg);
 
+        console.log(
+            '<<<----------------------------------------------->', '\n',
+            'ready_url: ', url, '\n',
+            'p_id: ', p_id, '\n',
+            'data: ', data, '\n',
+            'ajaxGet_data_res_jsonObj: ', msg, '\n',
+            '<----------------------------------------------->>>'
+        );
     });
 
 </script>

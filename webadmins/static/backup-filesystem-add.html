@@ -124,9 +124,9 @@
         var message = msg["message"];
         var res = '<option value="" selected>选择备份源主机</option>';
         for (var j = 0; j < message.length; j++) {
-            console.log(message[j]['source_addr']);
             var t = '<option value="' + message[j]['source_addr'] + '">' + message[j]['source_addr'] + '</option>';
             res += t;
+
             console.log(
                 '<<<----------------------------------------------->', '\n',
                 'source_addr_select', '\n',
@@ -166,7 +166,7 @@
             "backup_path": backup_path,
             "backup_method": backup_method
         };
-        console.log('data', data)
+
         if (source_addr === "" || backup_to_local_path === "" || backup_method === "" || backup_path === "") {
             //alert("缺少必要的参数");
             modalalertdemo("缺少必要的参数", 2000);
@@ -198,8 +198,7 @@
         $.Huimodalalert(msg, interval)
     }
 
-
 </script>
-<!--/请在上方写此页面业务相关的脚本-->
+
 </body>
 </html>
