@@ -35,11 +35,11 @@ class backup_host_manager(View):
         svc_type = request.GET.get("svc_type", '')
         try:
             if not svc_type:
-                context = db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_host_manager"). \
-                    order(order=["stat_time"]).select('*', final="dict")
+                context = db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_host_manager")\
+                    .order(order=["stat_time"]).select('*', final="dict")
             else:
-                context = db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_host_manager"). \
-                    order(order=["stat_time"]).where({"svc_type": "%s;all" % svc_type}).select('*', final="dict")
+                context = db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_host_manager")\
+                    .order(order=["stat_time"]).where({"svc_type": "%s;all" % svc_type}).select('*', final="dict")
         except Exception as e:
             result["code"] = 404
             result["message"] = "数据库查询失败! err: %s" % (str(e))
@@ -85,10 +85,14 @@ class backup_host_manager(View):
             result["message"] = "数据库查询失败! err: %s" % (str(e))
             return HttpResponse(status=404, content=json.dumps(result))
 
-        host_manager_info = {
-            "source_addr": source_addr, "svc_type": svc_type, "stat_time": stat_time, "createor": createor,
-            "db_user": db_user, "db_passwd": db_passwd, "db_conf": db_conf,
-            "db_port": db_port}
+        host_manager_info = {"source_addr": source_addr,
+                             "svc_type": svc_type,
+                             "stat_time": stat_time,
+                             "createor": createor,
+                             "db_user": db_user,
+                             "db_passwd": db_passwd,
+                             "db_conf": db_conf,
+                             "db_port": db_port}
 
         try:
             db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_host_manager").add([host_manager_info])
@@ -112,8 +116,10 @@ class backup_host_manager(View):
                 "filesystem_backup_task").where({"source_addr": source_addr}).select('*')
             has_db_bk_task = db.select_database(PROJ_DB_CONFIG["database"]).select_table(
                 "database_backup_task").where({"source_addr": source_addr}).select('*')
-            # print(has_db_bk_task)
-            # print(has_fs_bk_task)
+
+            print('<------------------|', has_db_bk_task, '|------------------>')
+            print('<------------------|', has_fs_bk_task, '|------------------>')
+
             if any([has_db_bk_task, has_fs_bk_task]):
                 result["code"] = 404
                 result["message"] = u'备份源主机%s中存在托管的备份任务, 无法删除!' % source_addr
@@ -146,7 +152,8 @@ class backup_host_manager(View):
         db = request.META.get("db")
         createor = request.session.get("um_account", 'unknown')
         cmdb_host_info = select_database_info(db, PROJ_DB_CONFIG["database"],
-                                              "cmdb_host_information", source_addr=source_addr)
+                                              "cmdb_host_information",
+                                              source_addr=source_addr)
         if not cmdb_host_info:
             result["code"] = 404
             result["message"] = "%s主机信息没找到!" % source_addr
@@ -155,8 +162,11 @@ class backup_host_manager(View):
             stat_time = int(time.time())
             r = celery_filesystem_agent_install.delay(cmdb_host_info=cmdb_host_info, svc_type=svc_type)
             t_id = r.id
-            data = {"stat_time": stat_time, "task_id": t_id, "source_addr": source_addr,
-                    "svc_type": "agent_install", "createor": createor,
+            data = {"stat_time": stat_time,
+                    "task_id": t_id,
+                    "source_addr": source_addr,
+                    "svc_type": "agent_install",
+                    "createor": createor,
                     "task_status": 0}
             try:
                 db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_task_history").add([data])
