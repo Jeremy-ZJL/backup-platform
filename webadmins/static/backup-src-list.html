@@ -2,11 +2,6 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="renderer" content="webkit|ie-comp|ie-stand">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport"
-          content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
-    <meta http-equiv="Cache-Control" content="no-siteapp"/>
     <link rel="Bookmark" href="favicon.ico">
     <link rel="Shortcut Icon" href="favicon.ico"/>
 
@@ -108,11 +103,11 @@
         var svc_type = tr[2].innerText;
         //var storage_source = tr[6].innerText;
 
-        if (svc_type == "全部") {
+        if (svc_type === "全部") {
             var svc_type = "all"
-        } else if (svc_type == "文件系统") {
+        } else if (svc_type === "文件系统") {
             var svc_type = "fs"
-        } else if (svc_type == "数据库") {
+        } else if (svc_type === "数据库") {
             var svc_type = "db"
         }
 
@@ -142,7 +137,7 @@
             var jsonObj = JSON.parse(res);
             alert(jsonObj.message);
             window.location.reload();
-            // modalalertdemo(jsonObj.message);
+
             console.log(
                 '<<<----------------------------------------------->', '\n',
                 'backup_src_host_del_url', url, '\n',
@@ -162,11 +157,9 @@
     function backup_src_edit(line_id, title, url, w, h) {
         var tr = document.getElementById("tr_" + line_id).getElementsByTagName("td");
         var source_addr = tr[1].innerText;
-        // var svc_type = tr[2].innerText;
-        //var storage_source = tr[6].innerText;
         $.cookie("backup_src_source_addr", source_addr);
-        // console.log(svc_type);
         layer_show(title, url, w, h);
+
         console.log(
             '<<<----------------------------------------------->', '\n',
             'backup_src_edit', '\n',
@@ -188,44 +181,37 @@
         for (var j = 0; j < jsonObj["message"].length; j++) {
             var items = jsonObj["message"][j];
 
-            if (items["svc_type"] == "all") {
+            if (items["svc_type"] === "all") {
                 var svc_type = "<font color='black'>全部</font>"
-            } else if (items["svc_type"] == "fs") {
+            } else if (items["svc_type"] === "fs") {
                 var svc_type = "<font color='black'>文件系统</font>"
-            } else if (items["svc_type"] == "db") {
+            } else if (items["svc_type"] === "db") {
                 var svc_type = "<font color='black'>数据库</font>"
             }
 
-            if (items["rsync_status"] == 1) {
+            if (items["rsync_status"] === 1) {
                 var rsync_status = "<font color='green'>已安装</font>"
-            } else if (items["rsync_status"] == 0) {
+            } else if (items["rsync_status"] === 0) {
                 var rsync_status = "<font color='red'>未安装</font>"
             } else {
                 var rsync_status = "<font color='red'>未知错误</font>"
             }
 
-            if (items["sersync_status"] == 1) {
+            if (items["sersync_status"] === 1) {
                 var sersync_status = "<font color='green'>已安装</font>"
-            } else if (items["sersync_status"] == 0) {
+            } else if (items["sersync_status"] === 0) {
                 var sersync_status = "<font color='red'>未安装</font>"
             } else {
                 var sersync_status = "<font color='red'>未知错误</font>"
             }
 
-            if (items["xtrabackup_status"] == 1) {
+            if (items["xtrabackup_status"] === 1) {
                 var xtrabackup_status = "<font color='green'>已安装</font>"
-            } else if (items["xtrabackup_status"] == 0) {
+            } else if (items["xtrabackup_status"] === 0) {
                 var xtrabackup_status = "<font color='red'>未安装</font>"
             } else {
                 var xtrabackup_status = "<font color='red'>未知错误</font>"
             }
-            //
-            // if (items["local_path"] == 0 || items["local_path"] == undefined || items["local_path"] == "" || items["local_path"] == "0"){
-            //     var local_path = "<font color='red'>未挂载</font>"
-            // }else{
-            //     var local_path = "<font color='black'>"+ items["local_path"] + "</font>"
-            // }
-
 
             var t = "<tr id='tr_" + j + "'><td>" + format_timestamp(items["stat_time"]) + "</td><td>" + items['source_addr'] +
                 "</td><td>" + svc_type + "</td><td>" + rsync_status + "</td><td>" + sersync_status +
@@ -240,7 +226,7 @@
         document.getElementById("t_body").innerHTML = res;
     }
 
-    $(document).ready(function () {
+    $(document).ready(function () {   // 代表的是页面加载完的时候，需要调用的接口
         var source_addr_url = location.protocol + "//" + location.hostname + ":" + location.port + BACKUP_HOST_MANAGER;
         var res = ajaxGet(source_addr_url);
         t_body(res);
@@ -248,11 +234,10 @@
             '<<<----------------------------------------------->', '\n',
             'ready', '\n',
             'source_addr_url: ', source_addr_url, '\n',
-            'ajaxGet_res: ', res, '\n',
+            'ajaxGet_res: ', JSON.parse(res), '\n',
             '<----------------------------------------------->>>'
         );
     });
-
 
     function modalalertdemo(msg, interval = 5000) {
         $.Huimodalalert(msg, interval)
