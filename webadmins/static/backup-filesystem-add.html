@@ -3,7 +3,6 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="Cache-Control" content="no-siteapp"/>
     <link rel="Bookmark" href="favicon.ico">
     <link rel="Shortcut Icon" href="favicon.ico"/>
 
@@ -107,8 +106,10 @@
         var message = msg["message"];
         var res = '<option value="" selected>备份至本地路径</option>';
         for (var j = 0; j < message.length; j++) {
-            var t = '<option value="' + message[j]['local_path'] + '">' + message[j]['local_path'] + "(" + message[j]["source_addr"] + ":" + message[j]["storage_mount_path"] + ")" + '</option>';
+            var t = '<option value="' + message[j]['local_path'] + '">' + message[j]['local_path'] +
+                "(" + message[j]["source_addr"] + ":" + message[j]["storage_mount_path"] + ")" + '</option>';
             res += t;
+
             console.log(
                 '<<<----------------------------------------------->', '\n',
                 'backup_local_path_list', '\n',
@@ -172,13 +173,11 @@
             modalalertdemo("缺少必要的参数", 2000);
             return
         }
-        var res = ajaxPost(url, data);
-        var jsonObj = JSON.parse(res);
-        //alert(jsonObj.message);
-        // modalalertdemo(jsonObj.message);
+        let res = ajaxPost(url, data);
+        let jsonObj = JSON.parse(res);
         window.alert(jsonObj.message);
         window.parent.location.reload();
-        var index = parent.layer.getFrameIndex(window.name);
+        let index = parent.layer.getFrameIndex(window.name);
         parent.layer.close(index);
 
         console.log(
