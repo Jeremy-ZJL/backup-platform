@@ -211,8 +211,8 @@
         let res = ajaxGet(url);
         t_body(res);
         var max_page_res = backup_history_sum_page();
-        var json_max_page = JSON.parse(max_page_res);
-        var now_page = 1;
+        var json_max_page = JSON.parse(max_page_res), now_page;
+        now_page = 1;
         let res2 = json_max_page.message / 20;
         var max_page = parseInt(res2);
         divPage(now_page, max_page);
