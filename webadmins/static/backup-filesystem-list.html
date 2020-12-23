@@ -144,6 +144,7 @@
             res += t;
         }
         // console.log(res);
+        document.getElementById("t_body").innerHTML = res;
         console.log(
             '<<<----------------------------------------------->', '\n',
             't_body', '\n',
@@ -151,7 +152,6 @@
             'items: ', items, '\n',
             '<----------------------------------------------->>>'
         );
-        document.getElementById("t_body").innerHTML = res;
     }
 
     function backup_fs_start(line_id) {
