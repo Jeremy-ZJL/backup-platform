@@ -119,16 +119,9 @@
         let jsonObj = JSON.parse(msg);
         let res = '';
 
-        console.log(
-            '<<<----------------------------------------------->', '\n',
-            't_body', '\n',
-            'jsonObj: ', jsonObj, '\n',
-            '<----------------------------------------------->>>'
-        );
-
         for (let j = 0; j < jsonObj["message"].length; j++) {
-            var items = jsonObj["message"][j];
-            console.log(items)
+            let items = jsonObj["message"][j];
+
             if (items["backup_status"] === 1) {
                 console.log('["backup_status"] === 1')
                 var backup_status = "<font color='green'>已启动</font>";
@@ -136,16 +129,16 @@
 
             } else if (items["backup_status"] === 2) {
                 console.log('["backup_status"] === 2')
-                let backup_status = "<font color='orange'>启动中</font>";
-                let task_action = "<a title='停止' href='javascript:;' onclick='backup_fs_stop(" + j + ")' class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe6dd;</i></a>"
+                var backup_status = "<font color='orange'>启动中</font>";
+                var task_action = "<a title='停止' href='javascript:;' onclick='backup_fs_stop(" + j + ")' class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe6dd;</i></a>"
 
             } else {
                 console.log('["backup_status"] === 3')
-                let backup_status = "<font color='red'>未启动</font>";
-                let task_action = "<a title='启动' href='javascript:;' onclick='backup_fs_start(" + j + ")' class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe6e1;</i></a>"
+                var backup_status = "<font color='red'>未启动</font>";
+                var task_action = "<a title='启动' href='javascript:;' onclick='backup_fs_start(" + j + ")' class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe6e1;</i></a>"
             }
 
-            let t = "<tr id='tr_" + j + "'><td>" + format_timestamp(items["stat_time"]) + "</td><td>" + items['source_addr'] +
+            var t = "<tr id='tr_" + j + "'><td>" + format_timestamp(items["stat_time"]) + "</td><td>" + items['source_addr'] +
                 "</td><td>" + items["backup_path"] + "</td><td title='" + items["backup_to_local_path"] + "'>" + items["backup_to_local_path"].substring(0, 30) + "....</div></td><td>" +
                 items["backup_method"] + "</td><td>" + backup_status + "</td><td>" + items["createor"] + "</td><td>" + task_action +
                 "<a title='全量备份' href='javascript:;' onclick='backup_fs_full(" + j + ")' class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe616;</i></a>" +
@@ -154,6 +147,13 @@
             res += t;
         }
         // console.log(res);
+        console.log(
+            '<<<----------------------------------------------->', '\n',
+            't_body', '\n',
+            'jsonObj: ', jsonObj, '\n',
+            'items: ', items, '\n',
+            '<----------------------------------------------->>>'
+        );
         document.getElementById("t_body").innerHTML = res;
     }
 
