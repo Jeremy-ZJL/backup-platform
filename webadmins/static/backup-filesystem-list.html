@@ -131,7 +131,7 @@
             console.log(items)
             if (items["backup_status"] === 1) {
                 console.log('["backup_status"] === 1')
-                let backup_status = "<font color='green'>已启动</font>";
+                var backup_status = "<font color='green'>已启动</font>";
                 let task_action = "<a title='停止' href='javascript:;' onclick='backup_fs_stop(" + j + ")' class='ml-5' style='text-decoration:none'><i class='Hui-iconfont'>&#xe6dd;</i></a>"
 
             } else if (items["backup_status"] === 2) {
