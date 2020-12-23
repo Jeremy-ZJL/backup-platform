@@ -384,10 +384,9 @@ class backup_fs_manager(View):
         db = request.META.get("db")
 
         try:
-            res = db.select_database(PROJ_DB_CONFIG["database"]).select_table("filesystem_backup_task").where(
-                {"source_addr": source_addr,
-                 "backup_path": backup_path
-                 }).select('backup_status', final="dict")
+            res = db.select_database(PROJ_DB_CONFIG["database"]).select_table("filesystem_backup_task")\
+                .where({"source_addr": source_addr,
+                        "backup_path": backup_path}).select('backup_status', final="dict")
 
             if not res:
                 result["code"] = 404
@@ -427,7 +426,8 @@ class backup_fs_manager(View):
         db = request.META.get("db")
         createor = request.session.get("um_account", 'unknown')
         cmdb_host_info = select_database_info(db, PROJ_DB_CONFIG["database"],
-                                              "cmdb_host_information", source_addr=source_addr)
+                                              "cmdb_host_information",
+                                              source_addr=source_addr)
         print(cmdb_host_info)
 
         if not cmdb_host_info:
@@ -436,7 +436,7 @@ class backup_fs_manager(View):
             return HttpResponse(status=404, content=json.dumps(result))
         else:
 
-            r = celery_filesystem_full_backup.delay(cmdb_host_info=cmdb_host_info,
+            r = celery_filesystem_full_backup.delay(cmdb_host_info=cmdb_host_info,                          # celery
                                                     backup_path=backup_path,
                                                     backup_to_local_path=backup_to_local_path,
                                                     action=action)
@@ -449,8 +449,7 @@ class backup_fs_manager(View):
                             "filesystem_backup_task").where({"source_addr": source_addr,
                                                              "backup_path": backup_path,
                                                              "backup_to_local_path": backup_to_local_path,
-                                                             "backup_status": 1}
-                                                            ).select("*")
+                                                             "backup_status": 1}).select("*")
                         if not res:
                             result["code"] = 404
                             result["message"] = "全量备份之前请先将备份任务启动!"

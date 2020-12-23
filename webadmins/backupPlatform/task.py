@@ -111,7 +111,10 @@ def celery_filesystem_full_backup(cmdb_host_info, backup_path, backup_to_local_p
                          cmdb_host_info["host_user"],
                          cmdb_host_info["host_passwd"],
                          cmdb_host_info["host_port"])
-    d = distribute_filesystem_backup(sshObj, cmdb_host_info["source_addr"], backup_path, backup_to_local_path)
+    d = distribute_filesystem_backup(sshObj,
+                                     cmdb_host_info["source_addr"],
+                                     backup_path,
+                                     backup_to_local_path)
     if action == "start":
         data = {"backup_status": 2}
         db.select_database(PROJ_DB_CONFIG["database"]).select_table("filesystem_backup_task")\

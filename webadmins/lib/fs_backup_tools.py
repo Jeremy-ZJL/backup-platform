@@ -24,7 +24,7 @@ class filesystem_backup(metaclass=ABCMeta):
     rsync_config_dir = os.path.join(os.path.join("/usr/local", BACKUP_AGENT_CONFIG["rsync"]), 'config')
     rsync_config_file = os.path.join(rsync_config_dir, 'rsyncd.conf')  # rsync配置文件路径
     rsync_temp_file = os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'template'),
-                                   'rsyncd.template')  ##rsync模板文件
+                                   'rsyncd.template')  # rsync模板文件
 
     def __init__(self, sshObj, source_addr, backup_src_path=None, backup_dst_path=None):
         self.sshObj = sshObj
@@ -180,11 +180,13 @@ class distribute_filesystem_backup(filesystem_backup):
         """
         在远程主机生成rsync配置
         """
-        self.sshObj.exeCommand("mkdir -p %s" % self.rsync_config_dir)  ##创建配置文件目录
-        self.sshObj.sftpFile(self.rsync_temp_file, self.rsync_config_file, 'push')  ##推送配置文件
+        self.sshObj.exeCommand("mkdir -p %s" % self.rsync_config_dir)  # 创建配置文件目录
+        self.sshObj.sftpFile(self.rsync_temp_file, self.rsync_config_file, 'push')  # 推送配置文件
         title = self.source_addr.replace('.', '-') + self.backup_src_path.replace('/', '-')
-        string = """\n[{title}]\npath={backup_path}\ncomment={title}
-              """.format(title=title, backup_path=self.backup_dst_path)
+        string = """\n[{title}]\npath={backup_path}\ncomment={title}""".format(
+            title=title,
+            backup_path=self.backup_dst_path
+        )
         output = self.sshObj.exeCommand("echo '%s' >> %s" % (string, self.rsync_config_file))
         if output['exit_code'] == 0:
             logger.info("在远程主机%s生成rsync配置成功!" % self.sshObj.host)
@@ -280,9 +282,11 @@ class distribute_filesystem_backup(filesystem_backup):
         self.sshObj.exeCommand("mkdir -p %s" % self.backup_dst_path)
         title = self.source_addr.replace('.', '-') + self.backup_src_path.replace('/', '-')
         if all([self.sftp_sersync_config(), self.mk_rsync_config(), self.rsync_start()]):
-            rsync_cmd = '/usr/local/rsync  -avc {backup_src_path}/* root@{source_addr}::{title} '.format(
-                backup_src_path=self.backup_src_path, source_addr=self.source_addr, title=title)
-            print(rsync_cmd)
+            rsync_cmd = '/usr/local/rsync  -avc {backup_src_path}/* root@{source_addr}::{title} '\
+                .format(backup_src_path=self.backup_src_path,
+                        source_addr=self.source_addr,
+                        title=title)
+            print('--------------rsync_cmd----', rsync_cmd)
             output = self.sshObj.exeCommand(rsync_cmd, timeout=86400)
             msg = output["stdout"].decode(encoding="utf-8").strip()
             logger.info("主机%s全量备份%s至%s成功! \n%s" % (self.source_addr, self.backup_src_path, self.backup_dst_path, msg))
