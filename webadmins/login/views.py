@@ -4,13 +4,13 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import View
 import json
 import time
-import sys
 from django.conf import settings
 from django.http import QueryDict
 from lib.util import *
 
 # import traceback
 # from django.shortcuts import render
+# import sys
 # PROJ_LIB_DIR = settings.PROJ_LIB_DIR
 # sys.path.insert(0, PROJ_LIB_DIR)
 
@@ -34,9 +34,9 @@ def account_login(request):
             return HttpResponse(status=404, content=json.dumps(result))
         else:
             try:
-                user_info = db.select_database(PROJ_DB_CONFIG["database"]).select_table("account_user"). \
-                    where({"um_account": um_account, "um_passwd": um_passwd, "account_status": 1}).select("*",
-                                                                                                          final="dict")
+                user_info = db.select_database(PROJ_DB_CONFIG["database"]).select_table("account_user")\
+                    .where({"um_account": um_account, "um_passwd": um_passwd, "account_status": 1})\
+                    .select("*", final="dict")
             except Exception as e:
                 result["code"] = 404
                 result["message"] = str(e)
@@ -48,12 +48,13 @@ def account_login(request):
                     return HttpResponse(status=404, content=json.dumps(result))
                 else:
                     request.session["um_account"] = um_account
-                    print(request.session.get("um_account"), 'dfdf')
+                    print(request.session.get("um_account"), '--session--')
+
                     request.session["last_login_time"] = user_info[0].get("last_login_time", 'error')
                     stat_time = int(time.time())
                     try:
-                        db.select_database(PROJ_DB_CONFIG["database"]).select_table("account_user").where(
-                            {"um_account": um_account}).set({"last_login_time": stat_time}).select("*")
+                        db.select_database(PROJ_DB_CONFIG["database"]).select_table("account_user")\
+                            .where({"um_account": um_account}).set({"last_login_time": stat_time}).select("*")
                     except Exception as e:
                         result["code"] = 404
                         result["message"] = str(e)

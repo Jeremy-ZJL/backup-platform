@@ -575,10 +575,14 @@ class backup_policy_manager(View):
             backup_to_local_path = ''.join(backup_to_local_path)
 
         p_id = create_jid()
-        data = {"source_addr": source_addr, "stat_time": stat_time, "svc_type": svc_type,
-                "backup_path": backup_path, "backup_to_local_path": backup_to_local_path, 'createor': createor,
-                "copy_count": copy_count, "p_id": p_id
-                }
+        data = {"source_addr": source_addr,
+                "stat_time": stat_time,
+                "svc_type": svc_type,
+                "backup_path": backup_path,
+                "backup_to_local_path": backup_to_local_path,
+                "createor": createor,
+                "copy_count": copy_count,
+                "p_id": p_id}
 
         tasks = []
         backup_times_json = json.loads(backup_times)

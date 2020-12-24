@@ -3,24 +3,13 @@
 <head>
     <meta charset="utf-8">
     <title>backupPlatform</title>
-    <meta name="renderer" content="webkit|ie-comp|ie-stand">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
-    <!--[if lt IE 9]>
-    <script type="text/javascript" src="lib/html5shiv.js"></script>
-    <script type="text/javascript" src="lib/respond.min.js"></script>
-    <![endif]-->
+
     <link href="static/h-ui/css/H-ui.min.css" rel="stylesheet" type="text/css"/>
     <link href="static/h-ui.admin/css/H-ui.login.css" rel="stylesheet" type="text/css"/>
     <link href="static/h-ui.admin/css/style.css" rel="stylesheet" type="text/css"/>
     <link href="lib/Hui-iconfont/1.0.8/iconfont.css" rel="stylesheet" type="text/css"/>
-    <!--[if IE 6]>
-    <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js"></script>
-    <script>DD_belatedPNG.fix('*');</script>
-    <![endif]-->
-    <meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
-    <meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
+
     <style type="text/css">
         .c{
             position: relative;
@@ -63,6 +52,11 @@
 </div>
 <div class="footer">Copyright 运维安全组 by H-ui.admin v3.1</div>
 
+<script src="bootstrap/js/jquery-2.1.1.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="lib/util.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+
 <!-- Mainly scripts -->
 <script>
     function account_clear() {
@@ -72,7 +66,6 @@
 
     function account_login() {
         var url = location.protocol + "//" + location.hostname + ":" + location.port + ACCOUNT_LOGIN_API;
-        console.log('account_login - url：', url);
 
         var username = document.getElementById("username").value;
         var password = document.getElementById("password").value;
@@ -81,23 +74,25 @@
             return
         }
         var data = {"um_account": username, "um_passwd": password};
-        console.log('user_data: ', data);
-
         var res = ajaxPost(url, data);
-        // console.log(res);
         var jsonObj = JSON.parse(res);
-        // console.log(jsonObj);
+
         if (jsonObj.code === 200) {
             window.open("index.html", '_self')
         } else {
             alert(jsonObj.message);
         }
+
+        console.log(
+            '<<<----------------------------------------------->', '\n',
+            'account_login', '\n',
+            'url: ', url, '\n',
+            'data: ', data, '\n',
+            'ajaxPost_res: ', res, '\n',
+            '<----------------------------------------------->>>'
+        );
     }
 </script>
 
-<script src="bootstrap/js/jquery-2.1.1.js"></script>
-<script src="bootstrap/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="lib/util.js"></script>
-<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
 </body>
 </html>
