@@ -3,9 +3,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport"
-          content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
     <link rel="Bookmark" href="favicon.ico">
     <link rel="Shortcut Icon" href="favicon.ico"/>
@@ -167,8 +164,10 @@
             }
 
             var t = "<tr id=tr_" + j + ">" +
-                "<td>" + format_timestamp(host_map["stat_time"]) + "</td><td><a onclick='get_tid_message(\"" + host_map["task_id"] + "\")'>" + host_map["task_id"] +
-                "</a></td><td>" + host_map["source_addr"] + "</td><td>" + svc_type + "</td>" + backup_path + backup_to_local_path +
+                "<td>" + format_timestamp(host_map["stat_time"]) +
+                "</td><td><a onclick='get_tid_message(\"" + host_map["task_id"] + "\")'>" + host_map["task_id"] +
+                "</a></td><td>" + host_map["source_addr"] +
+                "</td><td>" + svc_type + "</td>" + backup_path + backup_to_local_path +
                 "<td>" + task_status + "</td><td>" + host_map["createor"] + "</td></tr>";
 
             // console.log(t);
@@ -255,6 +254,7 @@
 
                     var data = {"now_page": minPage};
                     var msg = ajaxGet_data(url, data);
+
                     t_body(msg);
                     divPage(minPage, max_page);
                 } else {
@@ -264,6 +264,7 @@
 
                     var data = {"now_page": now_page};
                     var msg = ajaxGet_data(url, data);
+
                     t_body(msg);
                     divPage(now_page, max_page);
                 }
@@ -275,6 +276,7 @@
                     console.log('<<<--------s: ', s, '-------->>>');
 
                     var msg = ajaxGet_data(url, data);
+
                     t_body(msg);
                     divPage(max_page, max_page);
                 } else {
@@ -284,6 +286,7 @@
 
                     var data = {"now_page": now_page};
                     var msg = ajaxGet_data(url, data);
+
                     t_body(msg);
                     divPage(now_page, max_page);
                 }

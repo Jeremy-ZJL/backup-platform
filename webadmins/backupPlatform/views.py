@@ -500,8 +500,8 @@ class backup_history_list(View):
 
         if action == "calc_sum":
             try:
-                res = db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_task_history"). \
-                    select("count(*)")
+                res = db.select_database(PROJ_DB_CONFIG["database"])\
+                    .select_table("backup_task_history").select("count(*)")
             except Exception as e:
                 result["code"] = 404
                 result["message"] = str(e)
@@ -513,13 +513,20 @@ class backup_history_list(View):
 
         try:
             if t_id:
-                res = db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_task_history").order(
-                    order=["stat_time"]).where({"task_id": t_id}).select("message", final="dict")
+                res = db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_task_history")\
+                    .order(order=["stat_time"]).where({"task_id": t_id}).select("message", final="dict")
             else:
-                res = db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_task_history").limit(
-                    start=(now_page - 1) * 20, limit=20).order(order=["stat_time"]). \
-                    select(["stat_time", "task_id", "source_addr", "svc_type", "backup_path", "backup_to_local_path",
-                            "task_status", "createor"], final="dict")
+                res = db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_task_history")\
+                    .limit(start=(now_page - 1) * 20, limit=20).order(order=["stat_time"])\
+                    .select(["stat_time",
+                             "task_id",
+                             "source_addr",
+                             "svc_type",
+                             "backup_path",
+                             "backup_to_local_path",
+                             "task_status",
+                             "createor"],
+                            final="dict")
 
         except Exception as e:
             result["code"] = 404
