@@ -29,8 +29,6 @@ POOL = settings.POOL
 
 class duplicate_claen_tools:
     def __init__(self, p_id=None, t_id=None):
-        # self.source_addr = source_addr
-        # self.cmdb_host_info = self.__get_cmdb_host_info()
         self.p_id = p_id
         self.t_id = t_id
 
@@ -49,9 +47,12 @@ class duplicate_claen_tools:
     def before_db_backup_status_add(self):
         db = dbControl(POOL)
         task_id = '-'.join([self.p_id, self.t_id, self.stat_time])
-        data = {"stat_time": self.stat_time, "task_id": task_id, "source_addr": '127.0.0.1',
+        data = {"stat_time": self.stat_time,
+                "task_id": task_id,
+                "source_addr": '127.0.0.1',
                 "svc_type": "duplicate_clean",
-                "createor": "sched", "task_status": 0}
+                "createor": "sched",
+                "task_status": 0}
         try:
             db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_task_history").add([data])
         except Exception as e:
@@ -93,8 +94,8 @@ class duplicate_claen_tools:
                     duplicate = int(j.get("copy_count", 20))
                     try:
                         sshObj = self.__get_sshConn()
-                        result = sshObj.exeCommand("ls -t %s" % backup_to_local_path)["stdout"].decode(
-                            encoding="utf-8").strip().splitlines()
+                        result = sshObj.exeCommand("ls -t %s" % backup_to_local_path)["stdout"]\
+                            .decode(encoding="utf-8").strip().splitlines()
                         delete_duplicate = result[duplicate::]
                     except Exception as e:
                         sys.stdout.write(str(e))
@@ -105,7 +106,7 @@ class duplicate_claen_tools:
                             msg = "主机%s 副本数量未达到阈值!\n" % self.source_addr
                             context += msg
                         else:
-                            msg = "主机:%s 清理副本:\n" % (self.source_addr)
+                            msg = "主机:%s 清理副本:\n" % self.source_addr
                             for k in delete_duplicate:
                                 cmd = "cd %s; rm -rf %s" % (backup_to_local_path, k)
                                 sshObj.exeCommand(cmd)
@@ -120,20 +121,6 @@ class duplicate_claen_tools:
             self.after_db_backup_status_update(data)
         finally:
             db.close()
-
-        # timestamp = ControlTime.date_today(_format="%Y%m%d%H%M%S")[0]
-        # backup_to_local_path = os.path.join(backup_to_local_path, timestamp)
-        # self.before_db_backup_status_add(backup_to_local_path)
-        # sshObj = ""
-        # try:
-        #     sshObj = self.__get_sshConn()
-        # except Exception as e:
-        #    pass
-        # else:
-        #    pass
-        # finally:
-        #     if hasattr(sshObj, "close"):
-        #         sshObj.close()
 
 
 if __name__ == "__main__":
