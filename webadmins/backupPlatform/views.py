@@ -544,8 +544,8 @@ class backup_policy_manager(View):
         result = {}
         db = request.META.get("db")
         try:
-            msg = db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_policy_manager"). \
-                order(order=["stat_time"]).select("*", final="dict")
+            msg = db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_policy_manager")\
+                .order(order=["stat_time"]).select("*", final="dict")
         except Exception as e:
             result["code"] = 404
             result["message"] = str(e)
@@ -645,8 +645,8 @@ class backup_policy_sched_manager(View):
         db = request.META.get("db")
         p_id = request.GET.get("p_id", '')
         try:
-            msg = db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_sched_task_manager"). \
-                where({"p_id": p_id}).select("*", final="dict")
+            msg = db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_sched_task_manager")\
+                .where({"p_id": p_id}).select("*", final="dict")
         except Exception as e:
             result["code"] = 404
             result["message"] = str(e)
@@ -663,15 +663,15 @@ class backup_policy_sched_manager(View):
         t_id = httpDel.get("t_id", '')
         p_id = httpDel.get('p_id', '')
         try:
-            task_info = db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_sched_task_manager"). \
-                where({"p_id": p_id}).select("*")
+            task_info = db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_sched_task_manager")\
+                .where({"p_id": p_id}).select("*")
 
             if len(task_info) == 1:
-                db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_policy_manager"). \
-                    where({"p_id": p_id}).delete()
+                db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_policy_manager")\
+                    .where({"p_id": p_id}).delete()
+            db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_sched_task_manager")\
+                . where({"t_id": t_id, "p_id": p_id}).delete()
 
-            db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_sched_task_manager"). \
-                where({"t_id": t_id, "p_id": p_id}).delete()
         except Exception as e:
             result["code"] = 404
             result["message"] = str(e)

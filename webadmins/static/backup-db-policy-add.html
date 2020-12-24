@@ -83,7 +83,6 @@
                         <input onclick="schedule_policy_del(1)" class="btn btn-danger size-M" type="button" value="删除">&nbsp;
 					</span>
 
-
 				</span>
                 <input style="margin-top: 10px" onclick="schedule_policy_add()" id="schedule_add"
                        class="btn btn-primary size-M radius" type="button" value="添加">
@@ -128,7 +127,8 @@
 <script type="text/javascript" src="lib/util.js"></script>
 <script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
 <script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
-<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
+<!--/_footer 作为公共模版分离出去-->
 
 <script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
 <script type="text/javascript" src="lib/jquery.validation/1.14.0/jquery.validate.js"></script>
@@ -142,14 +142,19 @@
 
 
     function backup_hours_value(obj) {
-        console.log(obj.value);
-        console.log(typeof obj.value);
         if (parseInt(obj.value) >= 0 && parseInt(obj.value) <= 23) {
         } else {
             obj.value = "";
             alert('请输入数字, 范围为0-23');
             return
         }
+
+        console.log(
+            '<<<----------------------------------------------->', '\n',
+            'backup_hours_value', '\n',
+            'obj.value: ', obj.value, '\n',
+            '<----------------------------------------------->>>'
+        );
     }
 
     function backup_minutes_value(obj) {
@@ -164,27 +169,22 @@
 
     function setAllNo() {
         var box = document.getElementById("box_id");
-        var loves = document.getElementsByName("day_of_week");
-        if (box.checked == false) {
-            for (var i = 0; i < loves.length; i++) {
-                loves[i].checked = false;
+        var day = document.getElementsByName("day_of_week");
+
+        if (box.checked === false) {
+            for (let i = 0; i < day.length; i++) {
+                day[i].checked = false;
             }
         } else {
-            for (var i = 0; i < loves.length; i++) {
-                loves[i].checked = true;
+            for (let j = 0; j < day.length; j++) {
+                day[j].checked = true;
             }
         }
     }
 
     function schedule_policy_add() {
-        // var htmlCode = '<input type="text" class="input-text" value="" style="width: 35px">:<input type="text" class="input-text" value="" style="width: 35px"><input class="btn btn-danger size-M" type="button" value="删除">&nbsp;'
-        // var schedule_time = document.getElementById("schedule_time");
-        // schedule_time.append(htmlCode)
-
         var parent = document.getElementById("schedule_time");
         var exist_span = parent.getElementsByTagName("span");
-        console.log(exist_span);
-        console.log(exist_span.length);
         var span_length = exist_span.length;
 
         var hour_input = document.createElement("input");
@@ -221,29 +221,23 @@
             schedule_policy_del(span_length + 1)
         };
 
-
         var span = document.createElement("span");
         span.id = "sp_" + (exist_span.length + 1);
-
-        console.log("yyy");
-        console.log(span.id);
-        console.log("xxx");
-        span.appendChild(hour_input);
-        span.appendChild(split);
-        span.appendChild(minute_input);
-        span.appendChild(schedule_delete);
+        span.appendChild(hour_input);  // 时 框
+        span.appendChild(split);  // : 号
+        span.appendChild(minute_input);  // 分 框
+        span.appendChild(schedule_delete);  // 删除键
 
         parent.appendChild(span);
 
-        //parent.insertBefore(span, schedule_add);
-        // console.log(schedule_add);
-        // parent.insertBefore(span, schedule_add);
-
-        // parent.insertBefore(hour_input, schedule_add);
-        // parent.insertBefore(split, );
-        // parent.insertBefore(minute_input);
-        // parent.insertBefore(schedulte_delete);
-
+        console.log(
+            '<<<----------------------------------------------->', '\n',
+            'schedule_policy_add', '\n',
+            'exist_span: ', exist_span, '\n',
+            'span_length: ', span_length, '\n',
+            'span.id: ', span.id, '\n',
+            '<----------------------------------------------->>>'
+        );
     }
 
     function schedule_policy_del(line_id) {
@@ -271,10 +265,9 @@
 
     function backup_source_addr(args) {
         var msg = JSON.parse(args);
-        console.log(msg);
         var tmp = [];
         var res = '<option value="" selected>请选择</option>';
-        for (var j = 0; j < msg.message.length; j++) {
+        for (let j = 0; j < msg.message.length; j++) {
             var source_addr = msg["message"][j]["source_addr"];
 
             if (!tmp.includes(source_addr)) {
@@ -284,105 +277,124 @@
             }
         }
         document.getElementById("source_addr").innerHTML = res;
+
+        console.log(
+            '<<<----------------------------------------------->', '\n',
+            'backup_source_addr', '\n',
+            'msg: ', msg, '\n',
+            'ajaxGet_res: ', res, '\n',
+            '<----------------------------------------------->>>'
+        );
     }
 
     function backup_to_local_path_lst() {
-        var source_addr = document.getElementById("source_addr").value;
-        //var url = location.protocol + "//" + location.hostname + ":" + location.port + CMDB_STORAGE_INFORMATION;
-
         var url = location.protocol + "//" + location.hostname + ":" + location.port + BACKUP_DATABASE_MANAGER;
-        console.log(url);
+        var source_addr = document.getElementById("source_addr").value;
         var data = {"source_addr": source_addr};
-        console.log(data);
         var res = ajaxGet_data(url, data);
-        console.log(res);
-
         var result = '<option value="" selected>请选择</option>';
-
         var jsonObj = JSON.parse(res);
 
         for (var j = 0; j < jsonObj.message.length; j++) {
-            // var storage_mount_path = jsonObj.message[j]["storage_mount_path"];
-            // var local_path = jsonObj.message[j]["local_path"];
             var backup_to_local_path = jsonObj.message[j]["backup_to_local_path"];
-            // console.log(local_path);
-            // console.log(storage_mount_path);
             var t = '<option value="' + backup_to_local_path + '">' + backup_to_local_path + '</option>';
             result += t
         }
         document.getElementById("backup_to_local_path").innerHTML = result;
+
+        console.log(
+            '<<<----------------------------------------------->', '\n',
+            'backup_to_local_path_lst', '\n',
+            'url: ', url, '\n',
+            'data: ', data, '\n',
+            'ajaxGet_data_jsonObj: ', jsonObj, '\n',
+            '<----------------------------------------------->>>'
+        );
     }
 
     function sched_policy_add() {
         var source_addr = document.getElementById("source_addr").value;
         var backup_to_local_path = document.getElementById("backup_to_local_path").value;
 
-        console.log(source_addr);
-        console.log(backup_to_local_path);
-
         var day_of_week_lst = [];
         var day_of_week = document.getElementsByName("day_of_week");
-        // console.log(day_of_week);
-        for (var j = 0; j < day_of_week.length; j++) {
-            if (day_of_week[j].checked == true) {
+
+        for (let j = 0; j < day_of_week.length; j++) {
+            if (day_of_week[j].checked === true) {
                 day_of_week_lst.push(day_of_week[j].value);
             }
         }
-        // console.log(day_of_week_lst);
+
         var day_of_week = day_of_week_lst.join(",");
-        console.log(day_of_week);
 
         var copy_count = document.getElementById("copy_count").value;
-        console.log(copy_count);
 
         var backup_hours_lst = document.getElementsByName("backup_hours");
         var backup_minutes_lst = document.getElementsByName("backup_minutes");
 
-        console.log(backup_hours_lst);
-        console.log(backup_minutes_lst);
         var backup_times = [];
         for (var j = 0; j < backup_hours_lst.length; j++) {
             var t = {};
             var hour = backup_hours_lst[j].value;
             var minute = backup_minutes_lst[j].value;
-            console.log(hour);
-            console.log(minute);
             t["hour"] = hour;
             t["minute"] = minute;
             backup_times.push(t);
         }
-        console.log(backup_times);
 
-
-        if (source_addr == "" || backup_to_local_path == "" || day_of_week == "" || backup_times == "" || copy_count == "") {
+        if (source_addr === "" || backup_to_local_path === "" || day_of_week === "" || backup_times === "" || copy_count === "") {
             modalalertdemo("请将必要的信息填写完整!");
             return
         }
 
         var data = {
-            "source_addr": source_addr, "backup_to_local_path": backup_to_local_path,
-            "day_of_week": day_of_week, "backup_times": JSON.stringify(backup_times), "copy_count": copy_count,
+            "source_addr": source_addr,
+            "backup_to_local_path": backup_to_local_path,
+            "day_of_week": day_of_week,
+            "backup_times": JSON.stringify(backup_times),
+            "copy_count": copy_count,
             "svc_type": "db"
         };
-        console.log(data);
+
         var url = location.protocol + "//" + location.hostname + ":" + location.port + BACKUP_POLICY_MANAGER;
         var res = ajaxPost(url, data);
-        console.log(res);
         var jsonObj = JSON.parse(res);
-        // modalalertdemo(jsonObj.message);
         window.alert(jsonObj.message);
         window.parent.location.reload();
         var index = parent.layer.getFrameIndex(window.name);
         parent.layer.close(index);
+
+        console.log(
+            '<<<----------------------------------------------->', '\n',
+            'sched_policy_add', '\n',
+            'source_addr: ', source_addr, '\n',
+            'backup_to_local_path: ', backup_to_local_path, '\n',
+            'day_of_week: ', day_of_week, '\n',
+            'copy_count: ', copy_count, '\n',
+            'backup_hours_lst: ', backup_hours_lst, '\n',
+            'backup_minutes_lst: ', backup_minutes_lst, '\n',
+            'backup_times: ', backup_times, '\n',
+            'data: ', data, '\n',
+            'url: ', url, '\n',
+            'ajaxPost_res: ', res, '\n',
+            '<----------------------------------------------->>>'
+        );
     }
 
 
     $(document).ready(function () {
         var url = location.protocol + "//" + location.hostname + ":" + location.port + BACKUP_DATABASE_MANAGER;
-        console.log(url);
         var res = ajaxGet(url);
-        console.log(res);
+
         backup_source_addr(res);
+
+        console.log(
+            '<<<----------------------------------------------->', '\n',
+            'ready', '\n',
+            'url: ', url, '\n',
+            'ajaxGet_res: ', res, '\n',
+            '<----------------------------------------------->>>'
+        );
     });
 
 
