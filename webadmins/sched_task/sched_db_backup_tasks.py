@@ -48,7 +48,10 @@ class db_backup_tools:
         return result
 
     def __get_sshConn(self):
-        result = controlHost(self.source_addr, self.cmdb_host_info["host_user"], self.cmdb_host_info["host_passwd"], self.cmdb_host_info["host_port"])
+        result = controlHost(self.source_addr,
+                             self.cmdb_host_info["host_user"],
+                             self.cmdb_host_info["host_passwd"],
+                             self.cmdb_host_info["host_port"])
         return result
 
     def before_db_backup_status_add(self, backup_to_local_path):

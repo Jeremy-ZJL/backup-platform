@@ -7,7 +7,7 @@ import os
 import traceback
 import sys
 import time
-from lib.dbControl import *
+from lib.dbControl import dbControl
 from lib.logger import log
 from django.conf import settings
 from abc import ABCMeta, abstractmethod
@@ -35,6 +35,10 @@ class abstract_schedule(metaclass=ABCMeta):
         self.sched = BlockingScheduler()
 
     def lstCronJob(self, job_id=None):
+        """
+        参数job_id，如果没有则生成一个job字典 {'job_id':job_obj, ......}
+        如果有则根据job_id获取job对象。
+        """
         result = {}
         if not job_id:
             jobs = self.sched.get_jobs()
@@ -59,25 +63,25 @@ class abstract_schedule(metaclass=ABCMeta):
         self.sched.add_job(func, cron, args=args, id=job_id)
 
     def start(self):
-        print("123123")
+        print("--------------abstract_schedule-start--------------")
         self.sched.add_job(self.autoAddJob, IntervalTrigger(seconds=5), id="autoAddJob")
         self.sched.start()
 
     def autoAddJob(self):
         history_jobs = self.lstCronJob()
-        print(history_jobs, 'history_jobs')
+        print('-------------history_jobs-----', history_jobs)
 
         current_jobs = self.getBackupPolicy()
-        print(current_jobs, 'current_jobs')
+        print('-------------current_jobs-----', current_jobs)
 
         only_current_jobs = set(current_jobs.keys()).difference(set(history_jobs.keys()))
-        print(only_current_jobs, 'only_current_jobs')
+        print('-------------only_current_jobs-----', only_current_jobs)
         # 当前任务调度列表中有的 历史任务列表中没有的
 
         only_history_jobs = set(history_jobs.keys()).difference(set(current_jobs.keys()))
-        print(only_history_jobs, 'only_history_jobs')
+        print('-------------only_history_jobs-----', only_history_jobs)
         # 历史任务中有的当前任务列表中没有的任务
-        #
+
         for j in only_history_jobs:
             if j == 'autoAddJob':
                 continue
@@ -120,19 +124,29 @@ class schedule(abstract_schedule):
 
                 if svc_type == "db":
                     func = sched_task.sched_db_backup_tasks.db_backup_tools(source_addr, p_id, t_id)
-                    result[t_id] = {"func": func.db_backup_start, "args": [backup_to_local_path, ]}
+                    result[t_id] = {
+                        "func": func.db_backup_start,
+                        "args": [backup_to_local_path, ]
+                    }
                 elif svc_type == "fs":
                     func = sched_task.sched_fs_backup_tasks.fs_backup_tools(source_addr, p_id, t_id)
-                    result[t_id] = {"func": func.fs_backup_start, "args": [backup_path, backup_to_local_path]}
+                    result[t_id] = {
+                        "func": func.fs_backup_start,
+                        "args": [backup_path, backup_to_local_path]
+                    }
 
                 if t_id == "1000000001":  # 副本自动清理任务脚本
                     func = sched_task.sched_clean_backup_duplicate.duplicate_claen_tools(p_id, t_id)
-                    result[t_id] = {"func": func.duplicate_clean_start, "args": []}
+                    result[t_id] = {
+                        "func": func.duplicate_clean_start,
+                        "args": []
+                    }
 
                 result[t_id].update(day_of_week)
                 result[t_id].update(hour)
                 result[t_id].update(minute)
-                print(result)
+
+                print('--------getBackupPolicy_result------', result)
 
             return result
 
