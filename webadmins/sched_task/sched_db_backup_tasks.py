@@ -1,27 +1,31 @@
 #!/usr/bin/python
-#coding:utf8
-from abc import ABCMeta, abstractmethod
-import time, subprocess, socket, os, sys
+# coding:utf8
+
+import os
+import sys
+import pymysql
+from lib.util import *
+from lib.sshConn import controlHost
+from lib.dbControl import dbControl
+from lib.db_backup_tools import db_xtrabackup
+from lib.logger import log
+from django.conf import settings
+
+logger = log().getLogger()
+POOL = settings.POOL
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJ_CONFIG_FILE = os.path.join(os.path.join(BASE_DIR, 'config'), 'config.cfg')
-PROJ_LIB_DIR = os.path.join(BASE_DIR, 'lib')
-sys.path.insert(0, PROJ_LIB_DIR)
-from util import *
-from sshConn import *
-from dbControl import *
-from db_backup_tools import *
-from fs_backup_tools import *
-from logger import log
-logger = log().getLogger()
-import pymysql
 PROJ_CONFIG_OBJ = readConfig(PROJ_CONFIG_FILE)
 PROJ_DB_CONFIG = PROJ_CONFIG_OBJ.read_config("db")
-
 sys.path.insert(0, BASE_DIR)
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", 'webadmins.settings')
-from django.conf import settings
-POOL = settings.POOL
 
+
+# from lib.fs_backup_tools import *
+# from abc import ABCMeta, abstractmethod
+# import time, subprocess, socket, os, sys
+# PROJ_LIB_DIR = os.path.join(BASE_DIR, 'lib')
+# sys.path.insert(0, PROJ_LIB_DIR)
 
 class db_backup_tools:
     def __init__(self, source_addr, p_id, t_id):
@@ -57,9 +61,13 @@ class db_backup_tools:
     def before_db_backup_status_add(self, backup_to_local_path):
         db = dbControl(POOL)
         task_id = '-'.join([self.p_id, self.t_id, self.stat_time])
-        data = {"stat_time": self.stat_time, "task_id": task_id, "source_addr": self.source_addr, "svc_type": "db",
-                "createor": "sched", "task_status": 0, "backup_to_local_path": backup_to_local_path
-                }
+        data = {"stat_time": self.stat_time,
+                "task_id": task_id,
+                "source_addr": self.source_addr,
+                "svc_type": "db",
+                "createor": "sched",
+                "task_status": 0,
+                "backup_to_local_path": backup_to_local_path}
         try:
             db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_task_history").add([data])
         except Exception as e:
@@ -71,8 +79,8 @@ class db_backup_tools:
         task_id = '-'.join([self.p_id, self.t_id, self.stat_time])
         db = dbControl(POOL)
         try:
-            db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_task_history").\
-                where({"task_id": task_id}).set(data).update()
+            db.select_database(PROJ_DB_CONFIG["database"]).select_table("backup_task_history") \
+                .where({"task_id": task_id}).set(data).update()
         except Exception as e:
             logger.error(str(e))
         finally:
@@ -97,17 +105,14 @@ class db_backup_tools:
         finally:
             if hasattr(sshObj, "close"):
                 sshObj.close()
-        
 
 
 if __name__ == '__main__':
-    print(settings)
-
-
+    pass
+    # print(settings)
     # from dbControl import *
     # POOL = dbPool(PROJ_DB_CONFIG)
     # db = dbControl(POOL)
     # print(db)
-    x = db_backup_tools('172.16.70.221', '1000', '2000')
-    x.db_backup_start("/tmp")
-
+    # x = db_backup_tools('192.168.1.30', '1000', '2000')
+    # x.db_backup_start("/tmp")
