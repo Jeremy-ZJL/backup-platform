@@ -12,13 +12,13 @@ from lib.logger import log
 from django.conf import settings
 
 logger = log().getLogger()
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", 'webadmins.settings')
 POOL = settings.POOL
+PROJ_DB_CONFIG = settings.PROJ_DB_CONFIG
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJ_CONFIG_FILE = os.path.join(os.path.join(BASE_DIR, 'config'), 'config.cfg')
 PROJ_CONFIG_OBJ = readConfig(PROJ_CONFIG_FILE)
-PROJ_DB_CONFIG = PROJ_CONFIG_OBJ.read_config("db")
 sys.path.insert(0, BASE_DIR)
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", 'webadmins.settings')
 
 
 # from lib.fs_backup_tools import *
