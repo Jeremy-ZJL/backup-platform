@@ -1,22 +1,21 @@
 [unix_http_server]
-file={proj_home}/supervisord.sock
+file = {proj_home}/supervisord.sock
 
 [supervisord]
-logfile={proj_log_dir}/supervisord.log 
-logfile_maxbytes=50MB     
-logfile_backups=10        
-loglevel=info             
-pidfile={proj_home}/supervisord.pid
-nodaemon=false              
-minfds=1024               
-minprocs=200             
+logfile = {proj_log_dir}/supervisord.log 
+logfile_maxbytes = 50MB     
+logfile_backups = 10        
+loglevel = info             
+pidfile = {proj_home}/supervisord.pid
+nodaemon = false              
+minfds = 1024               
+minprocs = 200             
 
 [rpcinterface:supervisor]
 supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
 
 [supervisorctl]
-serverurl=unix://{proj_home}/supervisord.sock
-
+serverurl = unix://{proj_home}/supervisord.sock
 
 
 [program:uwsgi]
@@ -35,26 +34,27 @@ stderr_logfile_backups = 10
 
 [program:schedule]
 command = {python_env} -u {scheduler_entry}
-stopsignal=QUIT
-autostart=true
-startretries=100
-autorestart=true
-stdout_logfile={proj_log_dir}/supervisord_schedule_stdout.log
-stdout_logfile_maxbytes=50MB
-stdout_logfile_backups=10
-stderr_logfile={proj_log_dir}/supervisord_schedule_stderr.log
-stderr_logfile_maxbytes=50MB
-stderr_logfile_backups=10
+stopsignal = QUIT
+autostart = true
+startretries = 100
+autorestart = true
+stdout_logfile = {proj_log_dir}/supervisord_schedule_stdout.log
+stdout_logfile_maxbytes = 50MB
+stdout_logfile_backups = 10
+stderr_logfile = {proj_log_dir}/supervisord_schedule_stderr.log
+stderr_logfile_maxbytes = 50MB
+stderr_logfile_backups = 10
+
 
 [program:celery]
-command={python_env} {django_entry} celery worker -n 4 --loglevel=info
-stopsignal=QUIT
-autostart=true
-startretries=100
-autorestart=true
-stdout_logfile={proj_log_dir}/supervisord_celery_stdout.log
-stdout_logfile_maxbytes=1MB
-stdout_logfile_backups=10
-stderr_logfile={proj_log_dir}/supervisord_celery_stderr.log
-stderr_logfile_maxbytes=1MB
-stderr_logfile_backups=10
+command = {python_env} {django_entry} celery worker -n 4 --loglevel=info
+stopsignal = QUIT
+autostart = true
+startretries = 100
+autorestart = true
+stdout_logfile = {proj_log_dir}/supervisord_celery_stdout.log
+stdout_logfile_maxbytes = 50MB
+stdout_logfile_backups = 10
+stderr_logfile = {proj_log_dir}/supervisord_celery_stderr.log
+stderr_logfile_maxbytes = 50MB
+stderr_logfile_backups = 10
