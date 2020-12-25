@@ -6,6 +6,7 @@ from multiprocessing import Lock
 import os
 from functools import wraps
 from logging.handlers import TimedRotatingFileHandler
+from logging.handlers import RotatingFileHandler
 import threading
 
 lock = Lock()
@@ -40,7 +41,7 @@ class log(object):
         self.logger = logging.getLogger(__name__)
         self.logger.setLevel(level=logging.INFO)
         self.format = logging.Formatter(datefmt='%Z %z %A %Y-%m-%d %X',
-                                        fmt='%(asctime)s|%(levelname)s|%(filename)s|%(funcName)s|%(message)s')
+                                        fmt='%(asctime)s | %(levelname)s | %(filename)s | %(funcName)s | %(message)s')
 
         if not logFile:
             self.logPath = self.__makeDir(log.proj_log_file)

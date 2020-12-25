@@ -20,30 +20,30 @@ serverurl=unix://{proj_home}/supervisord.sock
 
 
 [program:uwsgi]
-command={uwsgi_process} --ini {uwsgi_config_file}
-stopsignal=QUIT
-autostart=true
-startretries=100
-autorestart=true
-stdout_logfile={proj_log_dir}/supervisord_uwsgi_stdout.log
-stdout_logfile_maxbytes=1MB
-stdout_logfile_backups=10
-stderr_logfile={proj_log_dir}/supervisord_uwsgi_stderr.log
-stderr_logfile_maxbytes=1MB
-stderr_logfile_backups=10
+command = {uwsgi_process} --ini {uwsgi_config_file}
+stopsignal = QUIT
+autostart = true
+startretries = 100
+autorestart = true
+stdout_logfile = {proj_log_dir}/supervisord_uwsgi_stdout.log
+stdout_logfile_maxbytes = 50MB
+stdout_logfile_backups = 10
+stderr_logfile = {proj_log_dir}/supervisord_uwsgi_stderr.log
+stderr_logfile_maxbytes = 50MB
+stderr_logfile_backups = 10
 
 
 [program:schedule]
-command={python_env} -u {scheduler_entry}
+command = {python_env} -u {scheduler_entry}
 stopsignal=QUIT
 autostart=true
 startretries=100
 autorestart=true
 stdout_logfile={proj_log_dir}/supervisord_schedule_stdout.log
-stdout_logfile_maxbytes=1MB
+stdout_logfile_maxbytes=50MB
 stdout_logfile_backups=10
 stderr_logfile={proj_log_dir}/supervisord_schedule_stderr.log
-stderr_logfile_maxbytes=1MB
+stderr_logfile_maxbytes=50MB
 stderr_logfile_backups=10
 
 [program:celery]
