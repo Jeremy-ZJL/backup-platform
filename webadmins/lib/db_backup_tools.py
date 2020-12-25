@@ -4,7 +4,7 @@
 import sys
 import os
 from lib.util import *
-from logger import log
+from lib.logger import log
 
 logger = log().getLogger()
 
