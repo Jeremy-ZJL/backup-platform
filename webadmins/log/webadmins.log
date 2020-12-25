@@ -1,0 +1,2 @@
+CST +0800 Friday 2020-12-25 14:06:21 | INFO | task.py | celery_ssh_connect_check | 修改主机192.168.1.31SSH连接状态为1成功!
+CST +0800 Friday 2020-12-25 14:06:21 | INFO | task.py | celery_ssh_connect_check | 修改主机192.168.1.31SSH连接状态为1成功!

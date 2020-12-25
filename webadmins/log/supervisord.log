@@ -1,0 +1,22 @@
+2020-12-25 13:59:56,739 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2020-12-25 13:59:56,747 INFO RPC interface 'supervisor' initialized
+2020-12-25 13:59:56,747 CRIT Server 'unix_http_server' running without any HTTP authentication checking
+2020-12-25 13:59:56,748 INFO daemonizing the supervisord process
+2020-12-25 13:59:56,749 INFO supervisord started with pid 11206
+2020-12-25 13:59:57,752 INFO spawned: 'celery' with pid 11207
+2020-12-25 13:59:57,754 INFO spawned: 'schedule' with pid 11208
+2020-12-25 13:59:57,756 INFO spawned: 'uwsgi' with pid 11209
+2020-12-25 13:59:59,565 INFO success: celery entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2020-12-25 13:59:59,565 INFO success: schedule entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2020-12-25 13:59:59,565 INFO success: uwsgi entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2020-12-25 14:04:34,182 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2020-12-25 14:04:34,190 INFO RPC interface 'supervisor' initialized
+2020-12-25 14:04:34,190 CRIT Server 'unix_http_server' running without any HTTP authentication checking
+2020-12-25 14:04:34,191 INFO daemonizing the supervisord process
+2020-12-25 14:04:34,191 INFO supervisord started with pid 11439
+2020-12-25 14:04:35,194 INFO spawned: 'celery' with pid 11440
+2020-12-25 14:04:35,196 INFO spawned: 'schedule' with pid 11441
+2020-12-25 14:04:35,198 INFO spawned: 'uwsgi' with pid 11442
+2020-12-25 14:04:37,042 INFO success: celery entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2020-12-25 14:04:37,042 INFO success: schedule entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2020-12-25 14:04:37,042 INFO success: uwsgi entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)

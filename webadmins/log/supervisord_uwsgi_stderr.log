@@ -1,0 +1,175 @@
+[uWSGI] getting INI configuration from /app_shell/backup-platform/webadmins/config/uwsgi.ini
+*** Starting uWSGI 2.0.18 (64bit) on [Fri Dec 25 13:59:57 2020] ***
+compiled with version: 4.8.5 20150623 (Red Hat 4.8.5-44) on 09 December 2020 13:25:03
+os: Linux-3.10.0-1127.el7.x86_64 #1 SMP Tue Mar 31 23:36:51 UTC 2020
+nodename: backupplatform
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 4
+current working directory: /app_shell/backup-platform
+writing pidfile to /app_shell/backup-platform/webadmins/uwsgi.pid
+detected binary path: /usr/local/python3/bin/uwsgi
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+chdir() to /app_shell/backup-platform/webadmins
+your processes number limit is 31191
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uWSGI http bound on 192.168.1.29:8900 fd 3
+uwsgi socket 0 bound to UNIX address /app_shell/backup-platform/webadmins/uwsgi.sock fd 6
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+Python version: 3.6.11 (default, Dec  9 2020, 17:35:45)  [GCC 4.8.5 20150623 (Red Hat 4.8.5-44)]
+Set PythonHome to /usr/local/python3
+Python main interpreter initialized at 0x1330770
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 730560 bytes (713 KB) for 32 cores
+*** Operational MODE: preforking+threaded ***
+WSGI app 0 (mountpoint='') ready in 1 seconds on interpreter 0x1330770 pid: 11209 (default app)
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 11209)
+spawned uWSGI worker 1 (pid: 11221, cores: 8)
+spawned uWSGI worker 2 (pid: 11222, cores: 8)
+spawned uWSGI worker 3 (pid: 11230, cores: 8)
+spawned uWSGI worker 4 (pid: 11238, cores: 8)
+spawned uWSGI http 1 (pid: 11239)
+[uWSGI] getting INI configuration from /app_shell/backup-platform/webadmins/config/uwsgi.ini
+*** Starting uWSGI 2.0.18 (64bit) on [Fri Dec 25 14:04:35 2020] ***
+compiled with version: 4.8.5 20150623 (Red Hat 4.8.5-44) on 09 December 2020 13:25:03
+os: Linux-3.10.0-1127.el7.x86_64 #1 SMP Tue Mar 31 23:36:51 UTC 2020
+nodename: backupplatform
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 4
+current working directory: /app_shell/backup-platform/webadmins
+writing pidfile to /app_shell/backup-platform/webadmins/uwsgi.pid
+detected binary path: /usr/local/python3/bin/uwsgi
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+chdir() to /app_shell/backup-platform/webadmins
+your processes number limit is 31191
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uWSGI http bound on 192.168.1.29:8900 fd 3
+uwsgi socket 0 bound to UNIX address /app_shell/backup-platform/webadmins/uwsgi.sock fd 6
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+Python version: 3.6.11 (default, Dec  9 2020, 17:35:45)  [GCC 4.8.5 20150623 (Red Hat 4.8.5-44)]
+Set PythonHome to /usr/local/python3
+Python main interpreter initialized at 0xc33780
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 730560 bytes (713 KB) for 32 cores
+*** Operational MODE: preforking+threaded ***
+WSGI app 0 (mountpoint='') ready in 0 seconds on interpreter 0xc33780 pid: 11442 (default app)
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 11442)
+spawned uWSGI worker 1 (pid: 11455, cores: 8)
+spawned uWSGI worker 2 (pid: 11456, cores: 8)
+spawned uWSGI worker 3 (pid: 11464, cores: 8)
+spawned uWSGI worker 4 (pid: 11467, cores: 8)
+spawned uWSGI http 1 (pid: 11473)
+<lib.dbControl.dbControl object at 0x7f3de01f11d0> --process_request--
+<ProcessAwareLogger lib.logger (INFO)> --logger process request--
+admin --um_account--
+select * from backup_platform.cmdb_host_information   order by stat_time desc 
+[pid: 11467|app: 0|req: 1/1] 192.168.1.2 () {48 vars in 910 bytes} [Fri Dec 25 14:06:17 2020] GET /api/cmdb/cmdb_host_information => generated 360 bytes in 111 msecs (HTTP/1.1 200) 4 headers in 177 bytes (1 switches on core 0)
+<lib.dbControl.dbControl object at 0x7f3dde9ec278> --process_request--
+<ProcessAwareLogger lib.logger (INFO)> --logger process request--
+admin --um_account--
+select * from backup_platform.cmdb_host_information where id = "45"   
+[pid: 11455|app: 0|req: 1/2] 192.168.1.2 () {54 vars in 1093 bytes} [Fri Dec 25 14:06:20 2020] PUT /api/cmdb/cmdb_host_information => generated 158 bytes in 133 msecs (HTTP/1.1 200) 4 headers in 177 bytes (1 switches on core 0)
+<lib.dbControl.dbControl object at 0x7f3dd9540c88> --process_request--
+<ProcessAwareLogger lib.logger (INFO)> --logger process request--
+admin --um_account--
+select * from backup_platform.filesystem_backup_task   order by stat_time desc 
+[pid: 11467|app: 0|req: 2/3] 192.168.1.2 () {48 vars in 914 bytes} [Fri Dec 25 14:11:09 2020] GET /api/backup/backup_fs_manager => generated 269 bytes in 4 msecs (HTTP/1.1 200) 4 headers in 177 bytes (1 switches on core 2)
+<lib.dbControl.dbControl object at 0x7f3dd94d92e8> --process_request--
+<ProcessAwareLogger lib.logger (INFO)> --logger process request--
+admin --um_account--
+select * from backup_platform.database_backup_task   order by stat_time desc 
+[pid: 11467|app: 0|req: 3/4] 192.168.1.2 () {48 vars in 924 bytes} [Fri Dec 25 14:11:11 2020] GET /api/backup/backup_database_manager => generated 170 bytes in 2 msecs (HTTP/1.1 200) 4 headers in 177 bytes (1 switches on core 5)
+<lib.dbControl.dbControl object at 0x7f3dd94d9a20> --process_request--
+<ProcessAwareLogger lib.logger (INFO)> --logger process request--
+admin --um_account--
+select * from backup_platform.backup_policy_manager   order by stat_time desc 
+[pid: 11467|app: 0|req: 4/5] 192.168.1.2 () {48 vars in 918 bytes} [Fri Dec 25 14:11:12 2020] GET /api/backup/backup_policy_manager => generated 248 bytes in 2 msecs (HTTP/1.1 200) 4 headers in 177 bytes (1 switches on core 4)
+<lib.dbControl.dbControl object at 0x7f3dde9ee1d0> --process_request--
+<ProcessAwareLogger lib.logger (INFO)> --logger process request--
+admin --um_account--
+select stat_time,task_id,source_addr,svc_type,backup_path,backup_to_local_path,task_status,createor from backup_platform.backup_task_history   order by stat_time desc limit 20
+[pid: 11456|app: 0|req: 1/6] 192.168.1.2 () {48 vars in 915 bytes} [Fri Dec 25 14:11:13 2020] GET /api/backup/backup_history_list => generated 4446 bytes in 119 msecs (HTTP/1.1 200) 4 headers in 177 bytes (1 switches on core 0)
+<lib.dbControl.dbControl object at 0x7f3dd94e1080> --process_request--
+<ProcessAwareLogger lib.logger (INFO)> --logger process request--
+admin --um_account--
+select count(*) from backup_platform.backup_task_history    
+[pid: 11467|app: 0|req: 5/7] 192.168.1.2 () {48 vars in 946 bytes} [Fri Dec 25 14:11:13 2020] GET /api/backup/backup_history_list?action=calc_sum => generated 28 bytes in 2 msecs (HTTP/1.1 200) 4 headers in 177 bytes (1 switches on core 1)
+<lib.dbControl.dbControl object at 0x7f3dd94e1780> --process_request--
+<ProcessAwareLogger lib.logger (INFO)> --logger process request--
+admin --um_account--
+select stat_time,task_id,source_addr,svc_type,backup_path,backup_to_local_path,task_status,createor from backup_platform.backup_task_history   order by stat_time desc limit 20, 20
+[pid: 11467|app: 0|req: 6/8] 192.168.1.2 () {48 vars in 936 bytes} [Fri Dec 25 14:11:16 2020] GET /api/backup/backup_history_list?now_page=2 => generated 4781 bytes in 3 msecs (HTTP/1.1 200) 4 headers in 177 bytes (1 switches on core 7)
+<lib.dbControl.dbControl object at 0x7f3dd9540d30> --process_request--
+<ProcessAwareLogger lib.logger (INFO)> --logger process request--
+admin --um_account--
+select stat_time,task_id,source_addr,svc_type,backup_path,backup_to_local_path,task_status,createor from backup_platform.backup_task_history   order by stat_time desc limit 20
+[pid: 11467|app: 0|req: 7/9] 192.168.1.2 () {48 vars in 936 bytes} [Fri Dec 25 14:11:18 2020] GET /api/backup/backup_history_list?now_page=1 => generated 4446 bytes in 3 msecs (HTTP/1.1 200) 4 headers in 177 bytes (1 switches on core 0)
+<lib.dbControl.dbControl object at 0x7f3dd94d9cf8> --process_request--
+<ProcessAwareLogger lib.logger (INFO)> --logger process request--
+admin --um_account--
+select stat_time,task_id,source_addr,svc_type,backup_path,backup_to_local_path,task_status,createor from backup_platform.backup_task_history   order by stat_time desc limit 20
+[pid: 11467|app: 0|req: 8/10] 192.168.1.2 () {48 vars in 936 bytes} [Fri Dec 25 14:11:25 2020] GET /api/backup/backup_history_list?now_page=1 => generated 4446 bytes in 3 msecs (HTTP/1.1 200) 4 headers in 177 bytes (1 switches on core 3)
+<lib.dbControl.dbControl object at 0x7f3dd94d9668> --process_request--
+<ProcessAwareLogger lib.logger (INFO)> --logger process request--
+admin --um_account--
+select stat_time,task_id,source_addr,svc_type,backup_path,backup_to_local_path,task_status,createor from backup_platform.backup_task_history   order by stat_time desc limit 20, 20
+[pid: 11467|app: 0|req: 9/11] 192.168.1.2 () {48 vars in 936 bytes} [Fri Dec 25 14:11:26 2020] GET /api/backup/backup_history_list?now_page=2 => generated 4781 bytes in 3 msecs (HTTP/1.1 200) 4 headers in 177 bytes (1 switches on core 2)
+<lib.dbControl.dbControl object at 0x7f3dd94e10f0> --process_request--
+<ProcessAwareLogger lib.logger (INFO)> --logger process request--
+admin --um_account--
+select stat_time,task_id,source_addr,svc_type,backup_path,backup_to_local_path,task_status,createor from backup_platform.backup_task_history   order by stat_time desc limit 40, 20
+[pid: 11467|app: 0|req: 10/12] 192.168.1.2 () {48 vars in 936 bytes} [Fri Dec 25 14:11:27 2020] GET /api/backup/backup_history_list?now_page=3 => generated 5526 bytes in 3 msecs (HTTP/1.1 200) 4 headers in 177 bytes (1 switches on core 5)
+<lib.dbControl.dbControl object at 0x7f3dde9ef1d0> --process_request--
+<ProcessAwareLogger lib.logger (INFO)> --logger process request--
+admin --um_account--
+select stat_time,task_id,source_addr,svc_type,backup_path,backup_to_local_path,task_status,createor from backup_platform.backup_task_history   order by stat_time desc limit 40, 20
+[pid: 11464|app: 0|req: 1/13] 192.168.1.2 () {48 vars in 936 bytes} [Fri Dec 25 14:11:27 2020] GET /api/backup/backup_history_list?now_page=3 => generated 5526 bytes in 118 msecs (HTTP/1.1 200) 4 headers in 177 bytes (1 switches on core 0)
+<lib.dbControl.dbControl object at 0x7f3dd94e1470> --process_request--
+<ProcessAwareLogger lib.logger (INFO)> --logger process request--
+admin --um_account--
+select stat_time,task_id,source_addr,svc_type,backup_path,backup_to_local_path,task_status,createor from backup_platform.backup_task_history   order by stat_time desc limit 40, 20
+[pid: 11467|app: 0|req: 11/14] 192.168.1.2 () {48 vars in 936 bytes} [Fri Dec 25 14:11:27 2020] GET /api/backup/backup_history_list?now_page=3 => generated 5526 bytes in 3 msecs (HTTP/1.1 200) 4 headers in 177 bytes (1 switches on core 4)
+<lib.dbControl.dbControl object at 0x7f3ddd566d30> --process_request--
+<ProcessAwareLogger lib.logger (INFO)> --logger process request--
+admin --um_account--
+select stat_time,task_id,source_addr,svc_type,backup_path,backup_to_local_path,task_status,createor from backup_platform.backup_task_history   order by stat_time desc limit 20, 20
+[pid: 11456|app: 0|req: 2/15] 192.168.1.2 () {48 vars in 936 bytes} [Fri Dec 25 14:11:28 2020] GET /api/backup/backup_history_list?now_page=2 => generated 4781 bytes in 3 msecs (HTTP/1.1 200) 4 headers in 177 bytes (1 switches on core 4)
+<lib.dbControl.dbControl object at 0x7f3ddd567d68> --process_request--
+<ProcessAwareLogger lib.logger (INFO)> --logger process request--
+admin --um_account--
+select stat_time,task_id,source_addr,svc_type,backup_path,backup_to_local_path,task_status,createor from backup_platform.backup_task_history   order by stat_time desc limit 20
+[pid: 11464|app: 0|req: 2/16] 192.168.1.2 () {48 vars in 936 bytes} [Fri Dec 25 14:11:28 2020] GET /api/backup/backup_history_list?now_page=1 => generated 4446 bytes in 3 msecs (HTTP/1.1 200) 4 headers in 177 bytes (1 switches on core 3)
+<lib.dbControl.dbControl object at 0x7f3ddd4fe3c8> --process_request--
+<ProcessAwareLogger lib.logger (INFO)> --logger process request--
+admin --um_account--
+select stat_time,task_id,source_addr,svc_type,backup_path,backup_to_local_path,task_status,createor from backup_platform.backup_task_history   order by stat_time desc limit 20
+[pid: 11464|app: 0|req: 3/17] 192.168.1.2 () {48 vars in 936 bytes} [Fri Dec 25 14:11:28 2020] GET /api/backup/backup_history_list?now_page=1 => generated 4446 bytes in 3 msecs (HTTP/1.1 200) 4 headers in 177 bytes (1 switches on core 1)
+<lib.dbControl.dbControl object at 0x7f3dd94ec400> --process_request--
+<ProcessAwareLogger lib.logger (INFO)> --logger process request--
+admin --um_account--
+select stat_time,task_id,source_addr,svc_type,backup_path,backup_to_local_path,task_status,createor from backup_platform.backup_task_history   order by stat_time desc limit 20
+[pid: 11467|app: 0|req: 12/18] 192.168.1.2 () {48 vars in 936 bytes} [Fri Dec 25 14:11:29 2020] GET /api/backup/backup_history_list?now_page=1 => generated 4446 bytes in 3 msecs (HTTP/1.1 200) 4 headers in 177 bytes (1 switches on core 6)
+<lib.dbControl.dbControl object at 0x7f3dd94ec940> --process_request--
+<ProcessAwareLogger lib.logger (INFO)> --logger process request--
+admin --um_account--
+select stat_time,task_id,source_addr,svc_type,backup_path,backup_to_local_path,task_status,createor from backup_platform.backup_task_history   order by stat_time desc limit 20, 20
+[pid: 11467|app: 0|req: 13/19] 192.168.1.2 () {48 vars in 936 bytes} [Fri Dec 25 14:11:30 2020] GET /api/backup/backup_history_list?now_page=2 => generated 4781 bytes in 3 msecs (HTTP/1.1 200) 4 headers in 177 bytes (1 switches on core 0)
